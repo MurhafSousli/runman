@@ -1,0 +1,74 @@
+[
+  {
+    "index":{
+      "x": 3,
+      "y": 4
+    },
+    "image": "url(../../assets/tree.png) 0% 0% / 100% 100%",
+    "isAvailable": false
+  },
+  {
+    "index":{
+      "x": 1,
+      "y": 5
+    },
+    "image": "url(../../assets/tree.png) 0% 0% / 100% 100%",
+    "isAvailable": false
+  },
+  {
+    "index":{
+      "x": 5,
+      "y": 2
+    },
+    "image": "url(../../assets/tree.png) 0% 0% / 100% 100%",
+    "isAvailable": false
+  },
+  {
+    "index":{
+      "x": 2,
+      "y": 5
+    },
+    "image": "url(../../assets/tree.png) 0% 0% / 100% 100%",
+    "isAvailable": false
+  },
+  {
+    "index":{
+      "x": 6,
+      "y": 2
+    },
+    "image": "url(../../assets/tree.png) 0% 0% / 100% 100%",
+    "isAvailable": false
+  },
+  {
+    "index":{
+      "x": 4,
+      "y": 3
+    },
+    "image": "url(../../assets/tree.png) 0% 0% / 100% 100%",
+    "isAvailable": false
+  },
+  {
+    "index":{
+      "x": 2,
+      "y": 4
+    },
+    "image": "url(../../assets/tree.png) 0% 0% / 100% 100%",
+    "isAvailable": false
+  },
+  {
+    "index":{
+      "x": 4,
+      "y": 2
+    },
+    "image": "url(../../assets/tree.png) 0% 0% / 100% 100%",
+    "isAvailable": false
+  },
+  {
+    "index":{
+      "x": 3,
+      "y": 3
+    },
+    "image": "url(../../assets/tree.png) 0% 0% / 100% 100%",
+    "isAvailable": false
+  }
+]

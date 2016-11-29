@@ -1,0 +1,9 @@
+<div class="grid" [style.height.px]="height" [style.width.px]="width">
+  <div *ngFor="let row of state.matrix">
+    <node class="grid-node" *ngFor="let node of row" [data]="node"></node>
+  </div>
+  <player [data]="state.hero" class="alive"></player>
+</div>
+
+
+<pre>{{state.hero | json}}</pre>
