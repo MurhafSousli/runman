@@ -65,7 +65,7 @@ export class GridService {
   moveHero(target: Node) {
     // let route = [Directions.UP, Directions.LEFT, Directions.LEFT, Directions.UP, Directions.RIGHT];
     // this.move(route);
-    this.air();
+    this.searchPath();
   }
 
 
@@ -100,7 +100,7 @@ export class GridService {
     this.setState();
   }
 
-  private air() {
+  private searchPath() {
 
     const graph = new Dijkstra();
 
