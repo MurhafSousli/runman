@@ -1,5 +1,5 @@
 import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import {GameState} from "../store/game.state";
+import {GameState} from "../store/game.reducer";
 
 
 @Component({

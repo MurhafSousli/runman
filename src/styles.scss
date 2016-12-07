@@ -17,16 +17,22 @@ grid{
   box-sizing: border-box;
   flex: 1;
   position: relative;
-  //border: 1px solid;
 }
-.node{
+.tile{
   position: absolute;
   transition: all 400ms linear;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
 }
-.grid-node .node{
+.grid-tile .tile{
   box-shadow: 0 0 2px black;
+  background-color: #B5C9B5;
+  &:hover{
+    background-color: #b2ffda;
+  }
 }
-.hero-node .node{
+.hero-tile .tile{
 
 }
 

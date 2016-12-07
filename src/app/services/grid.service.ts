@@ -8,66 +8,97 @@ import "rxjs/add/observable/interval";
 import "rxjs/add/operator/timeInterval";
 import "rxjs/add/operator/take";
 
-import {Node} from '../models/node.model';
-import {GameState} from "../store/game.state";
-import {Player} from "../models/player.model";
-import {Dijkstra} from "../algorithm/algorithm";
+import {Tile} from '../tile/tile.model';
+import {GameState} from "../store/game.reducer";
+import {Player} from "../player/player.model";
+import {PathFinder} from "../algorithm/pathfinder";
 
 @Injectable()
 export class GridService {
 
-  /** Grid Nodes */
-  matrix: Node[][];
+  /** Grid Tiles */
+  grid: Tile[][];
   height: number;
   width: number;
-  nodeSize: number;
-  hero: Node;
+  tileSize: number;
+  hero: Player;
 
   constructor(private store: Store<GameState>, private http: Http) {
+    this.new(10, 10, 50);
   }
 
-  new(x: number, y: number, nodeSize: number) {
-    this.nodeSize = nodeSize;
+  new(x: number, y: number, tileSize: number) {
+    this.tileSize = tileSize;
     this.drawMap(x, y);
-    this.createHero(x - 1, y - 1);
   }
 
   drawMap(x: number, y: number) {
 
     /** Set grid size */
-    this.width = this.nodeSize * x;
-    this.height = this.nodeSize * y;
+    this.width = x;
+    this.height = y;
+    this.grid = [];
 
-    this.matrix = [];
     /** Draw the base */
     for (let i = 0; i < x; i++) {
-      this.matrix[i] = [];
+      this.grid[i] = [];
       for (let j = 0; j < y; j++) {
-        this.matrix[i].push(new Node({x: i, y: j}, true));
+        this.grid[i].push(new Tile({x: i, y: j}, true, this.tileSize));
       }
     }
+
+
     /** Draw the map */
     this.http.get('../../assets/map/map.json').map(res => res.json()).subscribe(
-      (res: Node[]) => {
+      (res) => {
         res.map((object) => {
-          this.matrix[object.index.x][object.index.y] = new Node(object.index, object.isAvailable, object.image);
+          let tile = new Tile(object.index, object.walkable, this.tileSize, object.image, object.position);
+          this.grid[object.index.x][object.index.y] = tile;
         });
+
+        /** Draw the hero */
+        this.hero = new Player({x: x - 1, y: y - 1}, true, this.tileSize, '../../assets/sprites.png', 'top center');
+        // this.createHero(x - 1, y - 1);
         this.setState();
       }
     );
+
   }
 
-  createHero(x: number, y: number) {
-    this.hero = new Player({x: x, y: y}, true, 'url(../../assets/sprites.png) 0 0 /100% 800%');
-    this.setState();
+  // createHero(x: number, y: number) {
+  //   // this.hero = new Player({x: x, y: y}, true, this.tileSize, '../../assets/sprites.png', '100% 800%');
+  //   this.hero = {
+  //     index: {
+  //       x: x,
+  //       y: y
+  //     },
+  //     walkable: true,
+  //     tileSize: this.tileSize,
+  //     // image: '../../assets/sprites.png',
+  //     // imagePosition: '100% 800%'
+  //   };
+  // }
+
+  moveHero(target: Tile) {
+    let pathFinder = new PathFinder(this.grid, this.height, this.width);
+    let route = pathFinder.searchPath(this.grid[this.hero.index.x][this.hero.index.y], target);
+    this.moveToTarget(route);
   }
 
-  moveHero(target: Node) {
-    // let route = [Directions.UP, Directions.LEFT, Directions.LEFT, Directions.UP, Directions.RIGHT];
-    // this.move(route);
-    this.searchPath();
+  /**
+   * Movee with an interval between steps */
+  private moveToTarget(targets: Tile[]) {
+    console.log(targets);
+    Observable
+      .interval(200)
+      .timeInterval()
+      .take(targets.length)
+      .map(v => {
+        let i = v.value;
+        this.hero.index = targets[i].index;
+        this.setState();
+      }).subscribe();
   }
-
 
   /**
    * Movee with an interval between steps */
@@ -84,42 +115,26 @@ export class GridService {
   }
 
   /** Move object by direction (TESTED)*/
-  moveByDirection(node: Node, direction: Directions) {
+  moveByDirection(tile: Tile, direction: Directions) {
 
     switch (direction) {
       case Directions.DOWN:
-        node.index.y += 1;
+        tile.goDown();
       case Directions.UP:
-        node.index.y -= 1;
+        tile.goUp();
       case Directions.RIGHT:
-        node.index.x += 1;
+        tile.goRight();
       case Directions.LEFT:
-        node.index.x -= 1;
+        tile.goLeft();
       default:
     }
     this.setState();
   }
 
-  private searchPath() {
-
-    const graph = new Dijkstra();
-
-    this.matrix.map((row) => {
-      row.map((node: Node) => {
-        let x = node.index.x;
-        let y = node.index.y;
-        graph.addVertex(x + ":" + y, {x: x, y: y});
-        console.log(x + ":" + y, {x: x, y: y});
-      });
-    });
-
-    console.log(graph.shortestPath('0:0', '5:5'));
-  }
-
   private setState() {
     let state = {
-      matrix: this.matrix,
-      hero: Object.assign({}, this.hero)
+      grid: this.grid,
+      hero: this.hero
     };
 
     this.store.dispatch({
@@ -128,41 +143,40 @@ export class GridService {
   }
 }
 
-
 /** Direction matches arrows keys value */
 enum Directions{
-  LEFT = 37,
-  UP = 38,
-  RIGHT = 39,
-  DOWN = 40
+  LEFT,
+  UP,
+  RIGHT,
+  DOWN
 }
 
 
-// /** Move node */
-// private moveToTarget(node: Node, target: Node) {
+// /** Move tile */
+// private moveToTarget(tile: Node, target: Node) {
 //   /** Check if target exist and available */
 //   if (target && target.isAvailable) {
 //     // call the search algorithm to get the directions
 //   }
 // }
-// moveToTarget(node: Node, target: Node) {
+// moveToTarget(tile: Node, target: Node) {
 //   var move = () => {
 //     setTimeout(() => {
-//       if (JSON.stringify(node.index) !== JSON.stringify(target.index)) {
+//       if (JSON.stringify(tile.index) !== JSON.stringify(target.index)) {
 //
-//         if (node.index.x > target.index.x) {
-//           node.index.x -= 1;
+//         if (tile.index.x > target.index.x) {
+//           tile.index.x -= 1;
 //         }
-//         else if (node.index.x < target.index.x) {
-//           node.index.x += 1;
+//         else if (tile.index.x < target.index.x) {
+//           tile.index.x += 1;
 //         }
-//         if (node.index.y > target.index.y) {
-//           node.index.y -= 1;
+//         if (tile.index.y > target.index.y) {
+//           tile.index.y -= 1;
 //         }
-//         else if (node.index.y < target.index.y) {
-//           node.index.y += 1;
+//         else if (tile.index.y < target.index.y) {
+//           tile.index.y += 1;
 //         }
-//         this.hero = node;
+//         this.hero = tile;
 //         this.setState();
 //         move();
 //       }
@@ -174,16 +188,16 @@ enum Directions{
 // }
 
 
-// private getTargetByDirection(node: Node, direction): Node {
+// private getTargetByDirection(tile: Node, direction): Node {
 //   switch (direction) {
 //     case Directions.DOWN:
-//       return this.matrix[node.index.x][node.index.y + 1] || undefined;
+//       return this.matrix[tile.index.x][tile.index.y + 1] || undefined;
 //     case Directions.UP:
-//       return this.matrix[node.index.x][node.index.y - 1] || undefined;
+//       return this.matrix[tile.index.x][tile.index.y - 1] || undefined;
 //     case Directions.RIGHT:
-//       return this.matrix[node.index.x + 1][node.index.y] || undefined;
+//       return this.matrix[tile.index.x + 1][tile.index.y] || undefined;
 //     case Directions.LEFT:
-//       return this.matrix[node.index.x - 1][node.index.y] || undefined;
+//       return this.matrix[tile.index.x - 1][tile.index.y] || undefined;
 //     default:
 //       return undefined;
 //   }
@@ -192,8 +206,8 @@ enum Directions{
 //   this.hero = this.moveByDirection(this.hero, direction);
 //   this.setState();
 // }
-// private moveByDirection(node: Node, direction: Directions) {
-//   return this.moveByTarget(node, this.getTargetByDirection(node, direction));
+// private moveByDirection(tile: Node, direction: Directions) {
+//   return this.moveByTarget(tile, this.getTargetByDirection(tile, direction));
 // }
 
 

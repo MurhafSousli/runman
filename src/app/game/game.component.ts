@@ -2,7 +2,7 @@ import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {GridService} from "../services/grid.service";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
-import {GameState} from "../store/game.state";
+import {GameState} from "../store/game.reducer";
 
 @Component({
   selector: 'game',
@@ -19,7 +19,7 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.grid.new(10, 10, 50);
+    // this.grid.new(10, 10, 50);
   }
 
 }

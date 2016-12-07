@@ -1,6 +1,6 @@
 <div class="grid" [style.height.px]="height" [style.width.px]="width">
-  <div *ngFor="let row of state.matrix">
-    <node class="grid-node" *ngFor="let node of row" [data]="node"></node>
+  <div *ngFor="let row of state.grid">
+    <tile class="grid-tile" *ngFor="let tile of row" [data]="tile"></tile>
   </div>
   <player [data]="state.hero" class="alive"></player>
 </div>

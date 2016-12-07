@@ -1,6 +1,6 @@
 
 /**
- * A node for priority linked list / stack and such
+ * A tile for priority linked list / stack and such
  */
 class PriorityNode {
   key:number;
@@ -21,7 +21,7 @@ class PriorityQueue {
   nodes:PriorityNode[] = [];
 
   /**
-   * Enqueue a new node
+   * Enqueue a new tile
    * @param {[type]} priority
    * @param {[type]} key
    */
@@ -50,7 +50,7 @@ class PriorityQueue {
 }
 
 /**
- * Computes the shortest path between two node
+ * Computes the shortest path between two tile
  */
 export class Dijkstra{
 
@@ -101,7 +101,7 @@ export class Dijkstra{
 
       smallest = nodes.dequeue();
 
-      //we are the last node
+      //we are the last tile
       if(smallest === finish){
 
         //Compute the path

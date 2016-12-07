@@ -1,17 +1,19 @@
 import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import {Tile} from './tile.model';
 import {GridService} from "../services/grid.service";
-import {Player} from "./player.model";
+import {Player} from "../player/player.model";
 
 @Component({
-  selector: 'player',
-  templateUrl: './player.component.html',
-  styleUrls: ['./player.component.scss'],
+  selector: 'tile',
+  templateUrl: 'tile.component.html',
+  styleUrls: ['tile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlayerComponent {
+export class TileComponent{
 
-  @Input('data') player: Player;
+  @Input('data') tile: Player;
 
   constructor(private grid: GridService) {
   }
+
 }
