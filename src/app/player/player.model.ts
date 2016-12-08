@@ -12,4 +12,20 @@ export class Player extends Tile{
     this.styles.backgroundPosition = position || "";
     this.styles.backgroundSize = "cover"
   }
+
+  goUp() {
+    this.index.y -= 1;
+  }
+
+  goDown() {
+    this.index.y += 1;
+  }
+
+  goLeft() {
+    this.index.x -= 1;
+  }
+
+  goRight() {
+    this.index.x += 1;
+  }
 }

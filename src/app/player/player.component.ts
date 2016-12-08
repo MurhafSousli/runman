@@ -6,7 +6,7 @@ import {Player} from "./player.model";
   selector: 'player',
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlayerComponent {
 

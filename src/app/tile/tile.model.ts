@@ -14,9 +14,12 @@ export class Tile {
   heuristic: number = 0;
   total: number = 0;
 
+  /** Test ball for finding path */
+  ball: boolean;
+
   constructor(index?: Index, walkable?: boolean, tileSize?: number, image?: string, imagePosition?: string) {
     this.index = index || { x: -1, y: -1};
-    this.walkable = walkable || true;
+    this.walkable = walkable;
     this.setTileSize(tileSize || 50);
     this.setBackgroundImage(image || "", imagePosition || "contain");
   }
@@ -24,22 +27,6 @@ export class Tile {
   getStyles() {
     this.setPosition();
     return this.styles;
-  }
-
-  goUp() {
-    this.index.y -= 1;
-  }
-
-  goDown() {
-    this.index.y += 1;
-  }
-
-  goLeft() {
-    this.index.x -= 1;
-  }
-
-  goRight() {
-    this.index.x += 1;
   }
 
   setPosition() {

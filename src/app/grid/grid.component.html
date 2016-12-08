@@ -1,9 +1,7 @@
 <div class="grid" [style.height.px]="height" [style.width.px]="width">
-  <div *ngFor="let row of state.grid">
+  <div *ngFor="let row of grid.grid">
+    <!--state.grid-->
     <tile class="grid-tile" *ngFor="let tile of row" [data]="tile"></tile>
   </div>
   <player [data]="state.hero" class="alive"></player>
 </div>
-
-
-<pre>{{state.hero | json}}</pre>

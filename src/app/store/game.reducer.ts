@@ -1,11 +1,5 @@
 import {Action, ActionReducer} from '@ngrx/store';
-import {Tile} from '../tile/tile.model';
-import {Player} from "../player/player.model";
-
-export interface GameState {
-  grid: Tile[][];
-  hero: Player;
-}
+import {GameState} from "./game.state";
 
 const INITIAL_STATE: GameState = {
   grid: [],

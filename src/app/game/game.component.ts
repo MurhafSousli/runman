@@ -2,7 +2,7 @@ import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {GridService} from "../services/grid.service";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
-import {GameState} from "../store/game.reducer";
+import {GameState} from "../store/game.state";
 
 @Component({
   selector: 'game',

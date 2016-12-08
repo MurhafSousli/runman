@@ -35,4 +35,13 @@ grid{
 .hero-tile .tile{
 
 }
-
+.ball{
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  right: 40%;
+  bottom: 40%;
+  margin: auto;
+  border-radius: 50%;
+  background-color: yellow;
+}

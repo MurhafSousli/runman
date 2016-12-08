@@ -1,5 +1,4 @@
 import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import {Tile} from './tile.model';
 import {GridService} from "../services/grid.service";
 import {Player} from "../player/player.model";
 
@@ -7,7 +6,7 @@ import {Player} from "../player/player.model";
   selector: 'tile',
   templateUrl: 'tile.component.html',
   styleUrls: ['tile.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TileComponent{
 
