@@ -1,3 +1,4 @@
-<div class="tile" [ngStyle]="tile.getStyles()" (click)="grid.moveHero(tile)">
-  <div *ngIf="tile.ball" class="ball"></div>
+<div class="tile" [ngStyle]="getStyles()" (click)="grid.moveHero(tile)">
+  <!--<div *ngIf="tile.ball" class="ball"></div>-->
+  <!--<div *ngIf="!tile.walkable" class="ball"></div>-->
 </div>

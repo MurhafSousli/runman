@@ -1,0 +1,81 @@
+grid {
+  box-sizing: border-box;
+  flex: 1;
+  position: relative;
+}
+
+.grid {
+  background-color: $action_color;
+}
+
+.tile {
+  position: absolute;
+  transition: all 300ms linear;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 120px;
+    height: 120px;
+    margin-left: -60px;
+    margin-top: -60px;
+    background: #3f51b5;
+    border-radius: 100%;
+    opacity: .6;
+
+    transform: scale(0);
+  }
+
+  &:not(:active):after {
+    animation: ripple 1s;
+  }
+  &:after {
+    visibility: hidden;
+  }
+  &:focus:after {
+    visibility: visible;
+  }
+}
+
+
+.grid-tile .tile {
+  //box-shadow: 0 0 2px black;
+  background-color: transparent;
+  &:hover {
+    //background-color: rgba(white, 0.2);
+  }
+}
+
+.player {
+
+  img {
+    object-fit: none;
+    object-position: 0 0;
+    max-height: 90%;
+  }
+}
+
+.ball {
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  right: 40%;
+  bottom: 40%;
+  margin: auto;
+  border-radius: 50%;
+  background-color: yellow;
+}
+
+.idle {
+  animation: none !important;
+}

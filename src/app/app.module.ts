@@ -13,6 +13,7 @@ import {StoreModule} from "@ngrx/store";
 
 import {gameReducer} from "./store/game.reducer";
 import {PlayerComponent} from './player/player.component';
+import { StateInfoComponent } from './state-info/state-info.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {PlayerComponent} from './player/player.component';
     GridComponent,
     TileComponent,
     GameComponent,
-    PlayerComponent
+    PlayerComponent,
+    StateInfoComponent
   ],
   imports: [
     BrowserModule,

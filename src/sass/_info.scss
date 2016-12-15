@@ -1,0 +1,34 @@
+state-info {
+  position: fixed;
+  left: 0;
+  top: 50px;
+  color: white;
+  //flex: 1;
+  //display: flex;
+  //justify-content: center;
+  //width: 100%;
+  //background: url(assets/state-bg.png) repeat;
+  //box-shadow: 0 -1px 3px rgba(black, .8);
+  //z-index: 100;
+}
+
+.hero-state {
+  flex: 1;
+  display: flex;
+  max-width: 500px;
+}
+
+.hero-image {
+  width: 100px;
+}
+
+.hero-items {
+  margin: 10px;
+  flex: 1;
+}
+
+.hero-items, .hero-image {
+  margin: 10px;
+  background-color: white;
+  box-shadow: 0 0 3px rgba(black, .8);
+}

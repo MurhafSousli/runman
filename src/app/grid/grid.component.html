@@ -3,5 +3,8 @@
     <!--state.grid-->
     <tile class="grid-tile" *ngFor="let tile of row" [data]="tile"></tile>
   </div>
-  <player [data]="state.hero" class="alive"></player>
+  <player [data]="state.hero" class="tile-hero"></player>
+  <player [data]="state.enemy" class="tile-enemy"></player>
+
+  <state-info [state]="state"></state-info>
 </div>

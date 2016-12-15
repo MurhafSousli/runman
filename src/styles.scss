@@ -1,7 +1,16 @@
+@import "~normalize.css";
+@import "sass/variables";
+@import "sass/grid";
+@import "sass/hero";
+@import "sass/enemy";
+@import "sass/info";
+@import "sass/effects";
+
 /* You can add global styles to this file, and also import other style files */
-body, html{
+body, html {
   height: 100%;
 }
+
 app-root {
   display: flex;
   height: 100%;
@@ -9,39 +18,27 @@ app-root {
   justify-content: center;
   align-items: center;
 }
-game{
+
+header{
+  width: 100%;
+  background: url(assets/state-bg.png) repeat;
+  box-shadow: 0 1px 3px rgba(black, .8);
+  font-size: .7em;
+  text-align: center;
+  color: white;
+}
+
+game {
   flex: 1;
   display: flex;
-}
-grid{
-  box-sizing: border-box;
-  flex: 1;
-  position: relative;
-}
-.tile{
-  position: absolute;
-  transition: all 400ms linear;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: contain;
-}
-.grid-tile .tile{
-  box-shadow: 0 0 2px black;
-  background-color: #B5C9B5;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  background: url(assets/bg.png) repeat;
   &:hover{
-    background-color: #b2ffda;
+    cursor: url(assets/cursor.png), default;
   }
 }
-.hero-tile .tile{
 
-}
-.ball{
-  position: absolute;
-  top: 40%;
-  left: 40%;
-  right: 40%;
-  bottom: 40%;
-  margin: auto;
-  border-radius: 50%;
-  background-color: yellow;
-}
+
+
