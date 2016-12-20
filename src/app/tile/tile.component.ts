@@ -6,7 +6,7 @@ import {Tile} from "../models/tile/tile.model";
   selector: 'tile',
   templateUrl: 'tile.component.html',
   styleUrls: ['tile.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TileComponent {
 

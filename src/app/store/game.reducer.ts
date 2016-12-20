@@ -4,7 +4,9 @@ import {GameState} from "./game.state";
 const INITIAL_STATE: GameState = {
   grid: [],
   hero: undefined,
-  enemy: undefined
+  guard: undefined,
+  score: undefined,
+  time: undefined
 };
 
 export const MOVE_HERO = 'MOVE_HERO';

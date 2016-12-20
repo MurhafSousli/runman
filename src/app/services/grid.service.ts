@@ -1,17 +1,20 @@
 import {Injectable} from '@angular/core';
 import {Http} from "@angular/http";
-import {Store} from "@ngrx/store";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Subject} from "rxjs/Subject";
 import {Observable} from "rxjs/Observable";
+import {Store} from "@ngrx/store";
 
-import {Tile} from '../models/tile/tile.model';
-import {GameState} from "../store/game.state";
-import {Hero} from "../models/hero/hero.model";
-import {Enemy} from "../models/enemy/enemy.model";
 import {IGrid} from "./grid.interface";
 import {PathFinder} from "../algorithm/pathfinder";
+import {GameState} from "../store/game.state";
+import {Tile} from '../models/tile/tile.model';
+import {Hero} from "../models/hero/hero.model";
+import {Guard} from "../models/guard/guard.model";
 import {Player} from "../models/player/player.model";
-import {PlayerState} from "../models/player/player.interface";
+import {PlayerState, PlayerActions} from "../models/player/player.interface";
+
+import {Helper} from "./grid.helper";
+import {GameEngine} from "./grid.engine";
 
 @Injectable()
 export class GridService implements IGrid {
@@ -22,20 +25,24 @@ export class GridService implements IGrid {
   width: number;
   tileSize: number;
   hero: Hero;
-  enemy: Enemy;
+  guard: Guard;
+  goal: Tile;
 
-  playerSubjects: BehaviorSubject<Tile[]>[] = [];
+  timer: Date;
+
+  players$: Subject<Tile[]>[] = [];
+  move$: Subject<any> = new Subject();
+  // action$: Subject<any> = new Subject();
+  scanner$: Observable<any> = Observable.of(null);
+  takeAWalk$: Observable<any> = Observable.of(null);
 
   constructor(private store: Store<GameState>, private http: Http) {
     this.newGame(10, 10, 50);
   }
 
   newGame(x: number, y: number, tileSize: number) {
-    this.tileSize = tileSize;
-    this.loadMap(x, y);
-  }
 
-  loadMap(x: number, y: number) {
+    this.tileSize = tileSize;
 
     /** Set grid size */
     this.width = x;
@@ -46,215 +53,204 @@ export class GridService implements IGrid {
     for (let i = 0; i < x; i++) {
       this.grid[i] = [];
       for (let j = 0; j < y; j++) {
-        this.grid[i].push(new Tile({x: i, y: j}, true));
+        let tile = new Tile({x: i, y: j}, true);
+        this.grid[i].push(tile);
       }
     }
 
     /** Load the map */
-    this.http.get(prefixUrl('/../../assets/map/map.json')).map(res => res.json()).subscribe(
+    this.http.get(Helper.prefixUrl('../../assets/map/map.json')).map(res => res.json()).subscribe(
       (res) => {
         res.map((object) => {
           let tile = new Tile(object.index, object.walkable);
 
-          this.setTileBackgroundImage(tile, object.image);
+          // GameEngine.setTileBackgroundImage(tile, object.image);
+          tile.sprite = object.image;
           this.grid[object.index.x][object.index.y] = tile;
         });
+        /** Create goal */
+        this.goal = new Tile({x: 0, y: 0}, true);
+        this.goal.sprite = Helper.prefixUrl('../../assets/flag.png');
+
+        this.startTimer(5 * 60).subscribe();
 
         /** Create hero */
         this.hero = new Hero({x: x - 1, y: y - 1});
-        this.hero.subjectIndex = this.playerSubjects.push(new BehaviorSubject<Tile[]>([])) - 1;
-        this.registerPlayerRoute(this.hero);
+        this.hero.subjectIndex = this.players$.push(new Subject<Tile[]>()) - 1;
 
         /** Create Enemy */
-        this.enemy = new Enemy({x: 0, y: 0});
-        this.enemy.subjectIndex = this.playerSubjects.push(new BehaviorSubject<Tile[]>([])) - 1;
-        this.registerPlayerRoute(this.enemy);
-        this.guard();
+        this.guard = new Guard({x: 0, y: 0});
+        this.guard.subjectIndex = this.players$.push(new Subject<Tile[]>()) - 1;
+
+        this.activateMoves().subscribe();
+        // this.activateActions().subscribe();
+        this.activatePlayerMoves(this.guard).subscribe();
+        this.activatePlayerMoves(this.hero).subscribe();
+        this.takeAWalk(this.guard).subscribe();
+        this.scanner().subscribe();
 
         this.setState();
-      }
+      },
+      (err) => console.warn(err),
+      () => console.log("Map Loaded.")
     );
 
-  }
-
-  registerPlayerRoute(player: Player) {
-    /** Stream recent route tiles */
-    console.log(this.playerSubjects[player.subjectIndex]);
-    this.playerSubjects[player.subjectIndex].switchMap((arr) => {
-      return Observable
-        .interval(300)
-        .take(arr.length)
-        .map(i => arr.pop())
-        .timeInterval()
-        .do(null, null, () => {
-          setTimeout(() => {
-            /** Set player state to idle after he reaches the target */
-            player.state = PlayerState.IDLE;
-            this.setState();
-          }, 300);
-        });
-    }).subscribe(
-      (v) => {
-        /** Move to the next step */
-        this.moveStep(player, v.value);
-      }
-    );
   }
 
   moveHero(target: Tile) {
-    this.move(this.hero, target, true);
+    this.move$.next({start: this.hero, target: target});
+  }
+  attack(player: Player){
+    GameEngine.attackEffect(player);
   }
 
-  move(player: Player, target: Tile, move?: boolean) {
-    setTimeout(() => {
+  /** Activate player movement */
+  private activatePlayerMoves(player: Player) {
+    /** Stream recent route tiles */
+    return this.players$[player.subjectIndex].switchMap((arr) => {
+      return Observable
+        .timer(0, player.speed)
+        .take(arr.length)
+        .map(i => arr[arr.length - i - 1])
+        .timeInterval()
+        .do(
+          (next) => {
+            /** Move to the next tile */
+            let target = next.value;
+            // target.ball = false;
+            GameEngine.moveStep(this, player, target);
+            let range = Helper.getRange(1,0,);
 
-      let pathFinder = new PathFinder(this.grid, this.height, this.width);
+          },
+          (err) => {
+            console.warn(err);
+          },
+          () => {
 
-      /** Make the player tile walkable so PathFinder accepts it */
-      let start = this.grid[player.index.x][player.index.y];
-      start.walkable = true;
+            arr.map((tile: Tile) => {
 
-      let route = pathFinder.searchPath(start, target, move);
-      if (!route.length) {
-        start.walkable = false;
-        return;
-      }
-      /** Add target to the beginning of route array */
-      // route.unshift(target);
-      /** Start the first step to skip the first delay */
-      this.moveStep(player, route.pop());
-      this.playerSubjects[player.subjectIndex].next(route);
-    }, 1);
+              tile.ball = false;
+            });
+            setTimeout(() => {
+              /** Set player state to idle after he reaches the target */
+              player.state = PlayerState.IDLE;
+              this.setState();
+            }, player.speed);
+          });
+    });
   }
 
-  moveStep(player: Player, target: Tile) {
+  private activateMoves() {
+    return this.move$.do((res) => {
+        /** Make the player tile walkable so PathFinder accepts it */
+        let start = this.grid[res.start.index.x][res.start.index.y];
+        start.walkable = true;
 
-    console.log(target.index);
+        let route = PathFinder.searchPath(this, start, res.target);
 
-    if (target.index.x === player.index.x) {
-      if (target.index.y > player.index.y) {
-        // console.log('Down');
-        player.direction = directions.BOTTOM;
-      }
-      else {
-        // console.log('Up');
-        player.direction = directions.TOP;
-      }
-    }
-
-    else {
-      if (target.index.x > player.index.x) {
-        // console.log('Right');
-        player.direction = directions.RIGHT;
-      }
-      else {
-        // console.log('Left');
-        player.direction = directions.LEFT;
-      }
-    }
-
-    /** Set the start tile to walkable (required for PathFinder) */
-    this.grid[player.index.x][player.index.y].walkable = true;
-    /** Set the target tile to unwalkable (required to prevent players walking on the same tile) */
-    target.walkable = false;
-
-    player.state = PlayerState.WALKING;
-    player.index = target.index;
-    this.setState();
-  }
-
-  guard() {
-    this.takeAWalk(this.enemy);
-    this.playerInRange(this.enemy, this.hero);
-  }
-
-  /** Check if player in range */
-  playerInRange(guard: Player, player: Player) {
-    setTimeout(() => {
-
-      let xRange = getRange(this.width, guard.index.x);
-      let yRange = getRange(this.height, guard.index.y);
-
-      for (let i = xRange.min; i < xRange.max; i++) {
-        for (let j = yRange.min; j < yRange.max; j++) {
-          if (JSON.stringify(this.grid[i][j].index) === JSON.stringify(player.index)) {
-            console.log("Found");
-            this.move(player, guard, false);
-          }
+        if (!route.length) {
+          start.walkable = false;
+          return;
         }
-      }
 
-      this.playerInRange(guard, player);
-    }, 1000);
+        route.map((tile) => {
+          tile.ball = true;
+        });
+        this.players$[res.start.subjectIndex].next(route);
+      },
+      (err) => {
+        console.warn(err)
+      }
+    );
+  }
+
+  // private activateActions() {
+  //   return this.action$.do((res) => {
+  //
+  //     /** Make the player tile walkable so PathFinder accepts it */
+  //     let start = this.grid[res.start.index.x][res.start.index.y];
+  //     start.walkable = true;
+  //     let route = PathFinder.searchPath(this, start, res.target);
+  //
+  //     if (!route.length) {
+  //       start.walkable = false;
+  //       return;
+  //     }
+  //     /** Remove the first tile (Target tile) */
+  //     route.shift();
+  //     this.players$[res.start.subjectIndex].next(route);
+  //
+  //   });
+  // }
+
+
+  /** Scan for players in range */
+  private scanner() {
+    return this.scanner$
+      .concatMap(() => Observable.timer(1000))
+      .do(() => {
+        let targets = GameEngine.scan(this, this.guard, [this.hero], 5);
+
+        if (targets.length) {
+          /** Get the closest target */
+          let target = targets.reduce((prev, next) => prev.length > next.length ? next : prev);
+          /** Remove the first tile (Target tile) */
+          target.shift();
+          this.guard.action = PlayerActions.ATTACKING;
+          this.players$[this.guard.subjectIndex].next(target);
+        }
+        else {
+          /** If not target is close take a walk */
+          this.guard.action = PlayerActions.GUARDING;
+        }
+      })
+      .repeat();
   }
 
   /** Take a walk:
    * Move a player randomly 3 tiles range */
-  takeAWalk(player: Player) {
-    setTimeout(() => {
+  private takeAWalk(player: Player) {
+    return this.takeAWalk$
+      .concatMap(() => Observable.timer(Helper.getRandomBetween(1000, 2500)))
+      .do(() => {
+        if (player.action === PlayerActions.ATTACKING) return;
+        let target = GameEngine.getRandomTarget(this, player);
+        if (target.walkable) {
+          this.move$.next({start: player, target: target});
+        }
+      })
+      .repeat();
+  }
 
-      let xRange = getRange(this.width, player.index.x);
-      let yRange = getRange(this.height, player.index.y);
-      let x = getRandomBetween(xRange.min, yRange.max);
-      let y = getRandomBetween(yRange.min, yRange.max);
-
-      let target = this.grid[x][y];
-      if (target.walkable) {
-        this.move(player, target, true);
-      }
-
-      this.takeAWalk(player);
-    }, getRandomBetween(1000, 2500));
+  private startTimer(duration: number) {
+    return Observable
+      .interval(1000)
+      .timeInterval()
+      .do((x) => {
+        let timer = duration - x.value;
+        var t = new Date(1970, 0, 1);
+        t.setSeconds(timer);
+        if (timer < 0) {
+          /** Game over */
+          alert("Game Over");
+          return;
+        }
+        this.timer = t;
+        this.setState();
+      })
+      .share();
   }
 
   setState() {
     let state = {
       grid: this.grid,
       hero: this.hero,
-      enemy: this.enemy
+      guard: this.guard,
+      score: 5000,
+      time: this.timer
     };
-
     this.store.dispatch({
       payload: state, type: ''
     });
   }
-
-
-  setTileBackgroundColor(tile: Tile, color: string) {
-    tile.styles.backgroundColor = color;
-  }
-
-  setTileBackgroundImage(tile: Tile, src: string, position?: string) {
-    tile.styles.backgroundImage = "url(" + src + ")" || "";
-    tile.styles.backgroundPosition = position || "";
-  }
 }
-
-const directions = {
-  TOP: "walkingTop",
-  LEFT: "walkingLeft",
-  RIGHT: "walkingRight",
-  BOTTOM: "walkingBottom"
-};
-
-const getRandomBetween = (min, max) => {
-  return Math.floor(Math.random() * (max - min) + min);
-};
-
-const getRange = (maxIndex: number, index: number, range: number = 3) => {
-
-  let minIndex = 0;
-
-  let min = index - range;
-  let max = index + range;
-
-  return {
-    min: (min < minIndex) ? minIndex : min,
-    max: (max > maxIndex) ? maxIndex : max
-  };
-};
-
-
-export const prefixUrl = (link) => {
-  return "ai-game" + link;
-};

@@ -1,21 +1,20 @@
 state-info {
-  position: fixed;
-  left: 0;
-  top: 50px;
-  color: white;
-  //flex: 1;
-  //display: flex;
-  //justify-content: center;
-  //width: 100%;
-  //background: url(assets/state-bg.png) repeat;
-  //box-shadow: 0 -1px 3px rgba(black, .8);
-  //z-index: 100;
+  font-family: monospace, monospace;
 }
 
-.hero-state {
+.game-state {
   flex: 1;
   display: flex;
+  justify-content: space-between;
   max-width: 500px;
+  align-items: center;
+  padding: 5px;
+}
+.lives{
+  color: rgba(red, .8);
+  display: flex;
+  min-width: 60px;
+  justify-content: space-between;
 }
 
 .hero-image {

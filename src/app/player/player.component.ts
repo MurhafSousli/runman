@@ -34,4 +34,8 @@ export class PlayerComponent {
       return this.player.direction;
     }
   }
+
+  test(){
+    this.grid.attack(this.player);
+  }
 }

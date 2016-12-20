@@ -1,8 +1,11 @@
 @import "~normalize.css";
+@import "~animate.css/animate.min.css";
+@import "~font-awesome/css/font-awesome.min.css";
 @import "sass/variables";
 @import "sass/grid";
 @import "sass/hero";
-@import "sass/enemy";
+@import "sass/guard";
+@import "sass/flag";
 @import "sass/info";
 @import "sass/effects";
 

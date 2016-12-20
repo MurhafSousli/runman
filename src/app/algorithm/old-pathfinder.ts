@@ -1,17 +1,27 @@
 import {Tile} from "../models/tile/tile.model";
 import {List} from "./list.class";
-import {GridService} from "../services/grid.service";
 
-export module PathFinder {
+export class PathFinder {
 
-  export function searchPath(gridService: GridService, start: Tile, end: Tile): Tile[] {
+  startTile: Tile;
+  endTile: Tile;
+
+  closedList: List<Tile> = new List<Tile>();
+  openList: List<Tile> = new List<Tile>();
+
+  constructor(private grid: Tile[][], private height: number, private width: number) {
 
     /** Remove previous highlighting */
-    // gridService.grid.map((row) => {
-    //   row.map((tile: Tile) => {
-        // tile.ball = false;
-    //   });
-    // });
+    this.grid.map((row) => {
+      row.map((tile: Tile) => {
+        tile.ball = false;
+      });
+    });
+  }
+
+  searchPath(start: Tile, end: Tile): Tile[] {
+    this.startTile = start;
+    this.endTile = end;
 
     /** Path validation */
     if (JSON.stringify(start.index) === JSON.stringify(end.index)) {
@@ -29,90 +39,91 @@ export module PathFinder {
       return [];
     }
     /** Start A* Algorithm */
-    let openList = new List<Tile>();
-    let closedList = new List<Tile>();
 
     /** Add the starting tile to the openList */
-    openList.push(start);
+    this.openList.push(start);
     let currentTile: Tile;
 
     /** While openList is not empty */
-    while (openList.length) {
+    while (this.openList.length) {
       //current node = node for open list with the lowest cost.
-      currentTile = getTileWithLowestTotal(openList);
+      currentTile = this.getTileWithLowestTotal(this.openList);
 
       //if the currentTile is the endTile, then we can stop searching
       if (JSON.stringify(currentTile.index) === JSON.stringify(end.index)) {
-        return shortestPath(gridService, start, end, openList, closedList);
+
+        return this.shortestPath();
       }
       else {
         //move the current tile to the closed list and remove it from the open list.
-        openList.remove(currentTile);
-        closedList.push(currentTile);
+        this.openList.remove(currentTile);
+        this.closedList.push(currentTile);
 
         //Get all adjacent Tiles
-        let adjacentTiles = getAdjacentTiles(gridService, currentTile);
+        let adjacentTiles = this.getAdjacentTiles(currentTile);
 
         for (let adjacentTile of adjacentTiles) {
           //Get tile is not in the open list
-          if (!openList.contains(adjacentTile)) {
+          if (!this.openList.contains(adjacentTile)) {
             //Get tile is not in the closed list
-            if (!closedList.contains(adjacentTile)) {
+            if (!this.closedList.contains(adjacentTile)) {
               //move it to the open list and calculate cost
-              openList.push(adjacentTile);
+              this.openList.push(adjacentTile);
 
               //calculate the cost
               adjacentTile.search.cost = currentTile.search.cost + 1;
               //calculate the manhattan distance
-              adjacentTile.search.heuristic = manhattanDistance(adjacentTile, end);
+              adjacentTile.search.heuristic = this.manhattanDistance(adjacentTile);
               // calculate the total amount
               adjacentTile.search.total = adjacentTile.search.cost + adjacentTile.search.heuristic;
 
+              // currentTile.setBackgroundColor('rgba(0, 181, 93, 0.4)');
             }
           }
         }
       }
     }
-  };
+  }
 
-  const getTileWithLowestTotal = (openList: Tile[]): Tile => {
+  private getTileWithLowestTotal(openList: Tile[]): Tile {
 
     let tileWithLowestTotal = new Tile();
     let lowestTotal: number = 999999999;
     /** Search open tiles and get the tile with the lowest total cost */
     for (let openTile of openList) {
       if (openTile.search.total <= lowestTotal) {
-
+        //clone lowestTotal
         lowestTotal = openTile.search.total;
         tileWithLowestTotal = openTile;
       }
     }
     return tileWithLowestTotal;
-  };
+  }
 
-  const getAdjacentTiles = (gridService: GridService, current: Tile): Tile[] => {
+  private getAdjacentTiles(current: Tile): Tile[] {
+
     let adjacentTiles: Tile[] = [];
     let adjacentTile: Tile;
 
     //Tile to left
     if (current.index.x - 1 >= 0) {
-      adjacentTile = gridService.grid[current.index.x - 1][current.index.y];
+      adjacentTile = this.grid[current.index.x - 1][current.index.y];
       if (adjacentTile && adjacentTile.walkable) {
         adjacentTiles.push(adjacentTile);
       }
     }
 
     //Tile to right
-    if (current.index.x + 1 < gridService.width) {
-      adjacentTile = gridService.grid[current.index.x + 1][current.index.y];
+    if (current.index.x + 1 < this.width) {
+      adjacentTile = this.grid[current.index.x + 1][current.index.y];
       if (adjacentTile && adjacentTile.walkable) {
         adjacentTiles.push(adjacentTile);
       }
     }
 
     //Tile to Under
-    if (current.index.y + 1 < gridService.height) {
-      adjacentTile = gridService.grid[current.index.x][current.index.y + 1];
+    if (current.index.y + 1 < this.height) {
+      adjacentTile = this.grid[current.index.x][current.index.y + 1];
       if (adjacentTile && adjacentTile.walkable) {
         adjacentTiles.push(adjacentTile);
       }
@@ -120,41 +131,42 @@ export module PathFinder {
 
     //Tile to Above
     if (current.index.y - 1 >= 0) {
-      adjacentTile = gridService.grid[current.index.x][current.index.y - 1];
+      adjacentTile = this.grid[current.index.x][current.index.y - 1];
       if (adjacentTile && adjacentTile.walkable) {
         adjacentTiles.push(adjacentTile);
       }
     }
     return adjacentTiles;
-  };
+  }
 
   /** Calculate the manhattan distance */
-  const manhattanDistance = (adjacentTile: Tile, endTile: Tile): number => {
+  private manhattanDistance(adjacentTile: Tile): number {
 
-    return Math.abs((endTile.index.x - adjacentTile.index.x) +
-      (endTile.index.y - adjacentTile.index.y));
-  };
+    return Math.abs((this.endTile.index.x - adjacentTile.index.x) +
+      (this.endTile.index.y - adjacentTile.index.y));
+  }
 
-  const shortestPath = (gridService: GridService, startTile: Tile, endTile: Tile, openList: List<Tile>, closedList: List<Tile>) => {
+  private shortestPath() {
     let startFound: boolean = false;
-    let currentTile = endTile;
+    let currentTile = this.endTile;
     let pathTiles = [];
 
     //includes the end tile in the path
-    pathTiles.push(endTile);
-    // endTile.ball = true;
+    pathTiles.push(this.endTile);
+    this.endTile.ball = true;
 
     while (!startFound) {
-      let adjacentTiles = getAdjacentTiles(gridService, currentTile);
+      let adjacentTiles = this.getAdjacentTiles(currentTile);
+
       //check to see what newest current tile.
       for (let adjacentTile of adjacentTiles) {
         //check if it is the start tile
-        if (JSON.stringify(adjacentTile.index) === JSON.stringify(startTile.index)) {
+        if (JSON.stringify(adjacentTile.index) === JSON.stringify(this.startTile.index)) {
           return pathTiles;
         }
 
         //It has to be inside the closedList or openList
-        if (closedList.contains(adjacentTile) || openList.contains(adjacentTile)) {
+        if (this.closedList.contains(adjacentTile) || this.openList.contains(adjacentTile)) {
           if (adjacentTile.search.cost <= currentTile.search.cost && adjacentTile.search.cost > 0) {
             //Change the current tile.
             currentTile = adjacentTile;
@@ -163,7 +175,7 @@ export module PathFinder {
             pathTiles.push(adjacentTile);
 
             //highlight way with yellow balls
-            // adjacentTile.ball = true;
+            adjacentTile.ball = true;
 
             break;
           }

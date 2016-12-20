@@ -1,12 +1,12 @@
 import {Player} from "../player/player.model";
 import {Index} from "../tile/tile.interface";
-import {prefixUrl} from "../../services/grid.service";
+import {Helper} from "../../services/grid.helper";
 
-export class Enemy extends Player {
+export class Guard extends Player {
 
   constructor(index: Index) {
 
     super(index, false);
-    this.sprite = prefixUrl('/../../assets/enemy.png');
+    this.sprite = Helper.prefixUrl('/../../assets/guard.png');
   }
 }

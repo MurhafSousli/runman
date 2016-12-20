@@ -1,16 +1,21 @@
 grid {
+  user-select: none;
   box-sizing: border-box;
   flex: 1;
   position: relative;
+  background-color: $action_color;
 }
 
 .grid {
+  position: relative;
   background-color: $action_color;
+  box-shadow: inset 0 0 5px forestgreen;
+  transition: box-shadow .5s linear;
 }
 
 .tile {
   position: absolute;
-  transition: all 300ms linear;
+  transition: top 300ms linear, left 300ms linear, margin 150ms ease;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: contain;
@@ -45,6 +50,9 @@ grid {
   &:focus:after {
     visibility: visible;
   }
+  img{
+    max-height: 100%;
+  }
 }
 
 
@@ -78,4 +86,8 @@ grid {
 
 .idle {
   animation: none !important;
+}
+
+.danger{
+  box-shadow: 0 -3px 5px rgba(red, .8);
 }

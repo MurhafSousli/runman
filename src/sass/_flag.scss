@@ -1,0 +1,17 @@
+.flag img {
+  object-fit: none;
+  object-position: 0 0;
+  animation: flag 1s steps(10) infinite;
+  width: 90%;
+  max-height: 90%;
+}
+
+@keyframes flag {
+  from {
+    object-position: 0 0;
+  }
+  to {
+    object-position: 0 -500px;
+  }
+}
+

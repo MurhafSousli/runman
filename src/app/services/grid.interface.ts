@@ -1,4 +1,5 @@
-import {Enemy} from "../models/enemy/enemy.model";
+import {Subject} from "rxjs/Subject";
+import {Guard} from "../models/guard/guard.model";
 import {Hero} from "../models/hero/hero.model";
 import {Tile} from "../models/tile/tile.model";
 
@@ -9,10 +10,14 @@ export interface IGrid {
   width: number;
   tileSize: number;
   hero: Hero;
-  enemy: Enemy;
+  guard: Guard;
+
+  players$: Subject<Tile[]>[];
+  // move$: Subject<any>;
+  // action$: Subject<any>;
 
   newGame(x: number, y: number, tileSize: number);
-  loadMap(x: number, y: number);
+
   moveHero(target: Tile);
   setState();
 }

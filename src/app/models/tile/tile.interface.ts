@@ -10,6 +10,8 @@ export interface ITile{
   search: Search;
   /** Test ball for finding path, TODO: should be removed for production */
   ball: boolean;
+  /** sprite src */
+  sprite: string;
 }
 
 export interface Index {
@@ -32,4 +34,5 @@ export interface TileStyle {
   backgroundImage?;
   backgroundPosition?;
   backgroundSize?;
+  margin?;
 }

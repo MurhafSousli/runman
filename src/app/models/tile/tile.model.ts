@@ -12,6 +12,9 @@ export class Tile implements ITile{
   /** Test ball for finding path */
   ball: boolean;
 
+  /** sprite src */
+  sprite: string;
+
   constructor(index?: Index, walkable?: boolean) {
 
     this.search = {

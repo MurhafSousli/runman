@@ -1,10 +1,15 @@
-<div class="grid" [style.height.px]="height" [style.width.px]="width">
+<state-info [state]="state"></state-info>
+<div class="grid" [style.height.px]="height" [style.width.px]="width" [class.danger]="state.guard?.action === 'ATTACKING'">
   <div *ngFor="let row of grid.grid">
-    <!--state.grid-->
     <tile class="grid-tile" *ngFor="let tile of row" [data]="tile"></tile>
   </div>
-  <player [data]="state.hero" class="tile-hero"></player>
-  <player [data]="state.enemy" class="tile-enemy"></player>
 
-  <state-info [state]="state"></state-info>
+  <tile [data]="grid?.goal" class="flag"></tile>
+
+  <player [data]="state.hero" class="hero"></player>
+  <player [data]="state.guard" class="guard"></player>
+
+</div>
+<div class="">
+  <button (click)="grid.cloneHero(state.hero)">Clone</button>
 </div>
