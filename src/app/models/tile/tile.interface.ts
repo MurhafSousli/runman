@@ -8,8 +8,6 @@ export interface ITile{
   walkable: boolean;
   /** A* stuff */
   search: Search;
-  /** Test ball for finding path, TODO: should be removed for production */
-  ball: boolean;
   /** sprite src */
   sprite: string;
 }

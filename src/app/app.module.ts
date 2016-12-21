@@ -7,13 +7,14 @@ import {AppComponent} from './app.component';
 import {GridComponent} from './grid/grid.component';
 import {TileComponent} from './tile/tile.component';
 
-import {GridService} from './services/grid.service';
+import {GridService} from './service/grid.service';
 import {GameComponent} from './game/game.component'
 import {StoreModule} from "@ngrx/store";
 
 import {gameReducer} from "./store/game.reducer";
 import {PlayerComponent} from './player/player.component';
 import { StateInfoComponent } from './state-info/state-info.component';
+import { ResultComponent } from './result/result.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { StateInfoComponent } from './state-info/state-info.component';
     TileComponent,
     GameComponent,
     PlayerComponent,
-    StateInfoComponent
+    StateInfoComponent,
+    ResultComponent
   ],
   imports: [
     BrowserModule,

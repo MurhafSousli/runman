@@ -1,15 +1,28 @@
 <state-info [state]="state"></state-info>
-<div class="grid" [style.height.px]="height" [style.width.px]="width" [class.danger]="state.guard?.action === 'ATTACKING'">
+<div class="grid" [style.height.px]="height" [style.width.px]="width">
   <div *ngFor="let row of grid.grid">
     <tile class="grid-tile" *ngFor="let tile of row" [data]="tile"></tile>
   </div>
 
-  <tile [data]="grid?.goal" class="flag"></tile>
+  <tile *ngIf="grid.goal" [data]="grid.goal" class="flag"></tile>
 
   <player [data]="state.hero" class="hero"></player>
   <player [data]="state.guard" class="guard"></player>
 
+  <player *ngFor="let player of state.hero?.clones" [data]="player" class="hero"></player>
+
 </div>
-<div class="">
-  <button (click)="grid.cloneHero(state.hero)">Clone</button>
+<div class="status">
+  <div class="btn" (click)="grid.cloneHero()"><i class="fa fa-users" aria-hidden="true"></i></div>
+  <div class="message">
+    <div class="attack-state" *ngIf="state.guard?.action === 'ATTACKING'">
+      <p>You have been discovered</p>
+      <img class="animated slideInUp" src="../../assets/reaper-x.png">
+    </div>
+
+    <div class="attack-state" *ngIf="state.guard?.action !== 'ATTACKING'">
+      <p>Go to the flag... be safe!!</p>
+    </div>
+  </div>
 </div>
+

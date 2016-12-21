@@ -1,6 +1,6 @@
 import {Player} from "../player/player.model";
 import {Index} from "../tile/tile.interface";
-import {Helper} from "../../services/grid.helper";
+import {Helper} from "../../service/grid.helper";
 
 export class Guard extends Player {
 

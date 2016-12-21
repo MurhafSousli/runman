@@ -14,7 +14,10 @@ state-info {
   color: rgba(red, .8);
   display: flex;
   min-width: 60px;
-  justify-content: space-between;
+  justify-content: flex-end;
+  i{
+    margin-left: 5px;
+  }
 }
 
 .hero-image {

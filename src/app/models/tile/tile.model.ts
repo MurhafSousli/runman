@@ -9,9 +9,6 @@ export class Tile implements ITile{
   walkable: boolean;
   /** A* stuff */
   search: Search;
-  /** Test ball for finding path */
-  ball: boolean;
-
   /** sprite src */
   sprite: string;
 

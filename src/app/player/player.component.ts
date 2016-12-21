@@ -1,5 +1,5 @@
 import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import {GridService} from "../services/grid.service";
+import {GridService} from "../service/grid.service";
 import {Player} from "../models/player/player.model";
 import {PlayerState} from "../models/player/player.interface";
 
@@ -35,7 +35,4 @@ export class PlayerComponent {
     }
   }
 
-  test(){
-    this.grid.attack(this.player);
-  }
 }

@@ -35,3 +35,17 @@ game{
     transform: scale3d(1.2, 1.2, 1);
   }
 }
+
+
+.blood{
+  animation: blood 1s forwards;
+}
+
+@keyframes blood {
+  from {
+    object-position: 0 0;
+  }
+  to {
+    object-position: -500px 0;
+  }
+}

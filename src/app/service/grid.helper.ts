@@ -4,7 +4,7 @@ export module Helper {
     return Math.floor(Math.random() * (max - min) + min);
   };
 
-  export const getRange = (maxIndex: number, index: number, range: number = 3) => {
+  export const getRange = (maxIndex: number, index: number, range: number) => {
 
     let minIndex = 0;
 

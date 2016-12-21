@@ -1,6 +1,6 @@
 import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {GameState} from "../store/game.state";
-import {GridService} from "../services/grid.service";
+import {GridService} from "../service/grid.service";
 
 @Component({
   selector: 'grid',

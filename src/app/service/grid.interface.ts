@@ -12,7 +12,7 @@ export interface IGrid {
   hero: Hero;
   guard: Guard;
 
-  players$: Subject<Tile[]>[];
+  // players$: Subject<Tile[]>[];
   // move$: Subject<any>;
   // action$: Subject<any>;
 

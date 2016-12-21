@@ -68,7 +68,7 @@ export module GameEngine {
   };
 
   /** Generate target within range to move to (take a walk) */
-  export const getRandomTarget = (gridService: GridService, player: Player, range?: number): Tile => {
+  export const getRandomTarget = (gridService: GridService, player: Player, range: number): Tile => {
 
     let xRange = Helper.getRange(gridService.width, player.index.x, range);
     let yRange = Helper.getRange(gridService.height, player.index.y, range);
@@ -78,7 +78,7 @@ export module GameEngine {
     return gridService.grid[x][y];
   };
 
-  export const moveStep = (gridService, player: Player, target: Tile) => {
+  export const moveStep = (gridService: GridService, player: Player, target: Tile) => {
 
     if (target.index.x === player.index.x) {
       if (target.index.y > player.index.y) player.direction = PlayerDirections.BOTTOM;
@@ -97,7 +97,6 @@ export module GameEngine {
     player.index = target.index;
     /** Set the player future tile to un-walkable */
     target.walkable = false;
-    target.ball = false;
     gridService.setState();
   };
 

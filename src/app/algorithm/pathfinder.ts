@@ -1,17 +1,10 @@
 import {Tile} from "../models/tile/tile.model";
 import {List} from "./list.class";
-import {GridService} from "../services/grid.service";
+import {GridService} from "../service/grid.service";
 
 export module PathFinder {
 
   export function searchPath(gridService: GridService, start: Tile, end: Tile): Tile[] {
-
-    /** Remove previous highlighting */
-    // gridService.grid.map((row) => {
-    //   row.map((tile: Tile) => {
-        // tile.ball = false;
-    //   });
-    // });
 
     /** Path validation */
     if (JSON.stringify(start.index) === JSON.stringify(end.index)) {
@@ -142,7 +135,6 @@ export module PathFinder {
 
     //includes the end tile in the path
     pathTiles.push(endTile);
-    // endTile.ball = true;
 
     while (!startFound) {
       let adjacentTiles = getAdjacentTiles(gridService, currentTile);
@@ -158,13 +150,8 @@ export module PathFinder {
           if (adjacentTile.search.cost <= currentTile.search.cost && adjacentTile.search.cost > 0) {
             //Change the current tile.
             currentTile = adjacentTile;
-
             //Add this adjacentTile to the path list
             pathTiles.push(adjacentTile);
-
-            //highlight way with yellow balls
-            // adjacentTile.ball = true;
-
             break;
           }
         }

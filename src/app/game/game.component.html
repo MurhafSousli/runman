@@ -1,9 +1,6 @@
 <grid [state]="gameState | async"
       [height]="grid.height * grid.tileSize"
       [width]="grid.width * grid.tileSize"
-      (click)="clickEffect($event)"
-      (mousemove)="mouseStream$.next($event)"
 ></grid>
 
-<div *ngIf="effect" [ngStyle]="effect"></div>
 

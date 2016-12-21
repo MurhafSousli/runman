@@ -12,8 +12,11 @@ export class Player extends Tile implements IPlayer {
   direction: string;
   /** Player's Subject Index */
   subjectIndex: number;
+  pilotIndex: number;
   /** Player moving speed in ms */
   speed: number = 300;
+  /** Player lives */
+  lives = [true];
 
   constructor(index?: Index, walkable?: boolean) {
 
