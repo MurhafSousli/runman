@@ -1,0 +1,39 @@
+.modal{
+  z-index: 10000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(black, .8);
+}
+.panel{
+  background-color: rgba(black, .8);
+  border: 2px solid $text-color;
+  border-radius: 4px;
+  color: $text-color;
+  padding: 20px 60px;
+  margin: 20px;
+  text-align: center;
+
+  &-header{
+    margin: 30px 0 20px;
+    font-size: 5em;
+  }
+  &-body{
+    border-top: 2px solid $text-color;
+    border-bottom: 2px solid $text-color;
+    padding: 20px 10px;
+  }
+  &-footer{
+    .btn{
+      margin-top: 40px;
+      cursor: pointer;
+    }
+    padding-bottom: 40px;
+  }
+}

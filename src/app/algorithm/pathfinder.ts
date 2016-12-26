@@ -1,4 +1,4 @@
-import {Tile} from "../models/tile/tile.model";
+import {Tile} from "../models";
 import {List} from "./list.class";
 import {GridService} from "../service/grid.service";
 

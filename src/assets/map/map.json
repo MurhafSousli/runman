@@ -2,6 +2,15 @@
   {
     "index": {
       "x": 0,
+      "y": 0
+    },
+    "image": "../../assets/flag.png",
+    "walkable": true,
+    "type": "flag"
+  },
+  {
+    "index": {
+      "x": 0,
       "y": 2
     },
     "image": "../../assets/tree.png",

@@ -1,0 +1,14 @@
+.player {
+  img {
+    max-height: 96%;
+  }
+}
+.idle {
+  animation: none !important;
+}
+.dead{
+  display: none;
+}
+.grid img{
+  object-position: 0 0;
+}

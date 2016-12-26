@@ -6,7 +6,8 @@ export class Guard extends Player {
 
   constructor(index: Index) {
 
-    super(index, false);
+    super(index, true);
     this.sprite = Helper.prefixUrl('/../../assets/guard.png');
+    this.type += ' guard';
   }
 }

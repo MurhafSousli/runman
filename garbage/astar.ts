@@ -288,7 +288,7 @@ export module astar {
         // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.
         var currentNode:AStarData = openHeap.pop();
 
-        // End case -- result has been found, return the traced path.
+        // End case -- modal has been found, return the traced path.
         if(currentNode === _end) {
           var curr = currentNode;
           var ret = [];
@@ -339,7 +339,7 @@ export module astar {
         }
       }
 
-      // No result was found - empty array signifies failure to find path.
+      // No modal was found - empty array signifies failure to find path.
       return [];
     }
 

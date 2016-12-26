@@ -1,0 +1,40 @@
+.status{
+  background-color: $bg-dark;
+  color: $text-color;
+  position: relative;
+  flex: 1;
+  display: flex;
+
+  .message{
+    flex: 1;
+    display: flex;
+    font-size: .8em;
+    .attack-state{
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+  }
+  img{
+    position: absolute;
+    top:-15px;
+    right: 0;
+    max-width: 120px;
+  }
+  .btn{
+    color: $action_color;
+    padding: 8px;
+    margin: 10px;
+    background-color: transparent;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba($text-color, .8);
+    transition: all 200ms linear;
+    &:hover{
+      box-shadow: 0 0 10px rgba($text-color, .8);
+    }
+    &:active{
+      box-shadow: 0 0 1px rgba($text-color, .8);
+    }
+  }
+}

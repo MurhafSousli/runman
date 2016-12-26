@@ -1,8 +1,6 @@
-state-info {
-  font-family: monospace, monospace;
-}
 
 .game-state {
+  background-color: $action_color;
   flex: 1;
   display: flex;
   justify-content: space-between;
@@ -14,9 +12,10 @@ state-info {
   color: rgba(red, .8);
   display: flex;
   min-width: 60px;
-  justify-content: flex-end;
+  direction: rtl;
   i{
     margin-left: 5px;
+    text-shadow: 0 1px 0 rgba(0,0,0, .8);
   }
 }
 

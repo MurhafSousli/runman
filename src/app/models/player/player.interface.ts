@@ -10,9 +10,15 @@ export interface IPlayer extends ITile {
   direction: string;
   /** Player's Subject Index */
   subjectIndex: number;
+  /** Player moving speed in ms */
+  speed: number;
+  /** Player lives */
+  lives: boolean[];
+  /** Player blood effect */
+  blood: boolean;
 }
 
-export const PlayerState = {
+export const PlayerStates = {
   IDLE: "IDLE",
   WALKING: "WALKING",
   DEAD: "DEAD"

@@ -1,0 +1,15 @@
+<div class="game-state">
+  <div class="score">
+    {{state.score}}
+  </div>
+  <div class="btn" *ngIf="result === 'PAUSED'" (click)="grid.pauseGame()"><i class="fa fa-play" aria-hidden="true"></i></div>
+  <div class="timer">
+    <i class="fa fa-hourglass-half" aria-hidden="true"></i>
+    {{state.time | date:" mm:ss"}}
+  </div>
+  <div *ngIf="state.hero" class="lives">
+    <i *ngFor="let life of heroLives()"
+       [class]="(life) ? 'fa fa-heart' : 'fa fa-heart-o'" [style.color]="!life" aria-hidden="true"></i>
+  </div>
+</div>
+<modal *ngIf="(pause | async)" [state]="state.state" [score]="state.score" ></modal>

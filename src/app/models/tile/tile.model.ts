@@ -11,6 +11,8 @@ export class Tile implements ITile{
   search: Search;
   /** sprite src */
   sprite: string;
+  /** Tile type */
+  type: string;
 
   constructor(index?: Index, walkable?: boolean) {
 
@@ -22,6 +24,7 @@ export class Tile implements ITile{
     this.index = index || {x: -1, y: -1};
     this.walkable = walkable || false;
     this.styles = {};
+    this.type = 'tile';
   }
 
 }

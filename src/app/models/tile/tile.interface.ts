@@ -8,8 +8,10 @@ export interface ITile{
   walkable: boolean;
   /** A* stuff */
   search: Search;
-  /** sprite src */
+  /** Sprite src */
   sprite: string;
+  /** Tile type */
+  type: string
 }
 
 export interface Index {
@@ -32,5 +34,5 @@ export interface TileStyle {
   backgroundImage?;
   backgroundPosition?;
   backgroundSize?;
-  margin?;
+  transform?;
 }

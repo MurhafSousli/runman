@@ -1,20 +1,20 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
+import {BrowserModule} from '@angular/platform-browser'
+import {NgModule} from '@angular/core'
+import {FormsModule} from '@angular/forms'
+import {HttpModule} from '@angular/http'
 
-import {AppComponent} from './app.component';
-import {GridComponent} from './grid/grid.component';
-import {TileComponent} from './tile/tile.component';
+import {AppComponent} from './app.component'
+import {GameComponent} from './components/game/game.component'
+import {GridComponent} from './components/grid/grid.component'
+import {TileComponent} from './components/tile/tile.component'
+import {PlayerComponent} from './components/player/player.component'
+import {StateInfoComponent} from './components/state-info/state-info.component'
+import {ModalComponent} from './components/modal/modal.component'
+import {StateMessageComponent} from './components/state-message/state-message.component'
 
-import {GridService} from './service/grid.service';
-import {GameComponent} from './game/game.component'
-import {StoreModule} from "@ngrx/store";
-
-import {gameReducer} from "./store/game.reducer";
-import {PlayerComponent} from './player/player.component';
-import { StateInfoComponent } from './state-info/state-info.component';
-import { ResultComponent } from './result/result.component';
+import {GridService} from './service/grid.service'
+import {StoreModule} from "@ngrx/store"
+import {gameReducer} from "./store/game.reducer"
 
 @NgModule({
   declarations: [
@@ -24,7 +24,8 @@ import { ResultComponent } from './result/result.component';
     GameComponent,
     PlayerComponent,
     StateInfoComponent,
-    ResultComponent
+    ModalComponent,
+    StateMessageComponent
   ],
   imports: [
     BrowserModule,

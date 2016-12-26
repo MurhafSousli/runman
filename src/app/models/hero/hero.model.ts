@@ -5,12 +5,15 @@ import {Helper} from "../../service/grid.helper";
 export class Hero extends Player {
 
   /** hero clonned players */
-  clones: Player[] = [];
+  clones: Player[];
 
   constructor(index: Index) {
 
-    super(index, false);
+    super(index, true);
     this.sprite = Helper.prefixUrl('/../../assets/hero.png');
+    this.clones = [];
     this.lives = [true, true, true];
+    this.speed = 250;
+    this.type += ' hero';
   }
 }
