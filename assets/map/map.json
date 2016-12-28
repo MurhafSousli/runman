@@ -1,0 +1,171 @@
+[
+  {
+    "index": {
+      "x": 0,
+      "y": 0
+    },
+    "image": "../../assets/flag.png",
+    "walkable": true,
+    "type": "flag"
+  },
+  {
+    "index": {
+      "x": 0,
+      "y": 2
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 3,
+      "y": 4
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 1,
+      "y": 5
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 5,
+      "y": 2
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 2,
+      "y": 5
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 6,
+      "y": 2
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 2,
+      "y": 4
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 4,
+      "y": 2
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 6,
+      "y": 7
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 5,
+      "y": 7
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 4,
+      "y": 7
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 7,
+      "y": 7
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 5,
+      "y": 1
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 6,
+      "y": 1
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 7,
+      "y": 1
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 0,
+      "y": 8
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 0,
+      "y": 9
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 5,
+      "y": 9
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 6,
+      "y": 9
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 7,
+      "y": 5
+    },
+    "image": "../../assets/tree.png",
+    "walkable": false
+  }
+]
