@@ -1,6 +1,8 @@
 import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {GridService} from "../../service/grid.service";
 import {PlayerStates} from "../../models";
+import {PlayerSprites} from "../../models/player/player.interface";
+import {Helper} from "../../service/grid.helper";
 
 @Component({
   selector: 'player',
@@ -20,7 +22,10 @@ export class PlayerComponent {
   @Input() color;
   @Input() sub;
 
+  bloodSprite;
+
   constructor(private grid: GridService) {
+    this.bloodSprite = Helper.prefixUrl(PlayerSprites.BLOOD);
   }
 
   getStyles() {

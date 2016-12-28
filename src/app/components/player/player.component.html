@@ -1,7 +1,7 @@
 <div [class]="type" [ngStyle]="getStyles()">
   <img [src]="sprite" alt="" [ngClass]="getClasses()">
   <div *ngIf="blood" class="blood-effect">
-    <img src="../../assets/blood.png">
+    <img [src]="bloodSprite">
   </div>
 </div>
 <route [route]="grid.players$[sub]"

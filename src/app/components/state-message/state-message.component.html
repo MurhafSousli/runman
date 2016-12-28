@@ -4,11 +4,10 @@
   <div class="message">
     <div *ngIf="state.guard?.action === 'ATTACKING'" class="attack-state">
       <p>Grim reaper is coming... RUN!</p>
-      <img class="animated slideInUp" src="../../assets/reaper.png">
+      <img class="animated slideInUp" [src]="grimReaper">
     </div>
     <div *ngIf="state.guard?.action !== 'ATTACKING'" class="attack-state">
-      <p>Grim reaper is coming... RUN!</p>
-      <img class="animated slideInUp" src="../../assets/reaper.png">
+      <p>Go to the flag, keep distance from guard area!</p>
     </div>
   </div>
 </div>

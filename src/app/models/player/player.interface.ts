@@ -46,7 +46,8 @@ export interface PlayerRoute {
 }
 
 export const PlayerSprites = {
-  GRIM_REAPER: "/assets/guard.png",
-  HERO: "/assets/hero.png",
-  BOY: "/assets/boy.png"
+  GRIM_REAPER: "../../assets/guard.png",
+  HERO: "../../assets/hero.png",
+  BOY: "../../assets/boy.png",
+  BLOOD: "../../assets/blood.png"
 };
