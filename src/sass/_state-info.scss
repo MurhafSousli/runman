@@ -1,0 +1,40 @@
+
+.state-info {
+  background-color: $action_color;
+  color: $bg-dark;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .8);
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  > div {
+    flex: 1;
+  }
+  .btn{
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .8);
+    &:hover{
+      color: $bg-light;
+    }
+  }
+}
+.score{
+  i{
+    color: $text-color;
+  }
+}
+
+.lives {
+  color: rgba(red, .8);
+  display: flex;
+  min-width: 60px;
+  direction: rtl;
+  i {
+    margin-left: 5px;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .8);
+  }
+}
+
+.timer {
+  text-align: center;
+}

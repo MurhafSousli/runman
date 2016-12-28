@@ -1,15 +1,14 @@
-<div class="status">
+<div class="state-message">
 
-  <div class="btn" (click)="grid.pauseGame()"><i class="fa fa-pause" aria-hidden="true"></i></div>
   <div class="btn" (click)="grid.cloneHero()"><i class="fa fa-users" aria-hidden="true"></i></div>
   <div class="message">
-    <div class="attack-state" *ngIf="state?.guard?.action === 'ATTACKING'">
-      <p>You have been detected... RUN!</p>
+    <div *ngIf="state.guard?.action === 'ATTACKING'" class="attack-state">
+      <p>Grim reaper is coming... RUN!</p>
       <img class="animated slideInUp" src="../../assets/reaper.png">
     </div>
-
-    <div class="attack-state" *ngIf="state?.guard?.action !== 'ATTACKING'">
-      <p>Go to the flag, keep distance between you and the guard.</p>
+    <div *ngIf="state.guard?.action !== 'ATTACKING'" class="attack-state">
+      <p>Grim reaper is coming... RUN!</p>
+      <img class="animated slideInUp" src="../../assets/reaper.png">
     </div>
   </div>
 </div>

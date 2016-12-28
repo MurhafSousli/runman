@@ -18,6 +18,12 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
     this.gameState = this.store.select<GameState>('gameState');
+    /** Clone hero when space is clicked */
+    Observable.fromEvent(document, 'keyup').subscribe((e:KeyboardEvent) => {
+      if(e.keyCode === 32){
+        this.grid.cloneHero();
+      }
+    });
   }
 
 }

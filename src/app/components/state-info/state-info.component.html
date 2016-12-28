@@ -1,10 +1,10 @@
-<div class="game-state">
+<div class="state-info">
   <div class="score">
+    <i class="fa fa-star" aria-hidden="true"></i>
     {{state.score}}
   </div>
-  <div class="btn" *ngIf="result === 'PAUSED'" (click)="grid.pauseGame()"><i class="fa fa-play" aria-hidden="true"></i></div>
   <div class="timer">
-    <i class="fa fa-hourglass-half" aria-hidden="true"></i>
+    <i class="btn" (click)="grid.pauseGame()"><i class="fa fa-pause" aria-hidden="true"></i></i>
     {{state.time | date:" mm:ss"}}
   </div>
   <div *ngIf="state.hero" class="lives">

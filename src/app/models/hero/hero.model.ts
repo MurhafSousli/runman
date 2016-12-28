@@ -1,19 +1,18 @@
 import {Player} from "../player/player.model";
 import {Index} from "../tile/tile.interface";
-import {Helper} from "../../service/grid.helper";
+import {PlayerSprites} from "../player/player.interface";
 
 export class Hero extends Player {
 
-  /** hero clonned players */
+  /** hero cloned players */
   clones: Player[];
 
   constructor(index: Index) {
 
-    super(index, true);
-    this.sprite = Helper.prefixUrl('/../../assets/hero.png');
+    super(index, PlayerSprites.HERO, 'hero');
     this.clones = [];
     this.lives = [true, true, true];
     this.speed = 250;
-    this.type += ' hero';
+    this.color = 'rgba(10, 160, 2, 0.6)';
   }
 }

@@ -31,7 +31,7 @@ export module Helper {
   };
 
   export const prefixUrl = (link) => {
-    return "ai-game" + link;
+    return "runman" + link;
   };
 
 
@@ -54,10 +54,13 @@ export module Helper {
     let yRange = Helper.getRange(gridService.height - 1, guard.index.y, range);
 
     let routes = [];
-    /** Search for players */
+    /** Search the range for players */
     for (let i = xRange.min; i <= xRange.max; i++)
       for (let j = yRange.min; j <= yRange.max; j++)
-        players.map((player) => {
+
+        /** Search for players except the guard himself */
+        players.filter(player => player !== guard).map((player) => {
+
           if (JSON.stringify(gridService.grid[i][j].index) === JSON.stringify(player.index)) {
 
             /** If player detected */
@@ -66,7 +69,9 @@ export module Helper {
             start.walkable = true;
             target.walkable = true;
             let route = PathFinder.searchPath(gridService, start, target);
-            if (route.length) routes.push(route);
+            if (route.length) {
+                routes.push({route: route, target: player});
+            }
             start.walkable = false;
             target.walkable = false;
           }
@@ -74,7 +79,6 @@ export module Helper {
     return routes
   };
 }
-
 
 
 // export const setTileBackgroundColor = (tile: Tile, color: string) => {

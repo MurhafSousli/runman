@@ -8,8 +8,7 @@ const INITIAL_STATE: GameState = {
   players: undefined,
   time: undefined,
   score: 0,
-  state: undefined,
-  message: undefined
+  state: undefined
 };
 
 export const GameStore = {
@@ -24,7 +23,6 @@ export const GameModal = {
   WON: "WON",
   LOST: "LOST"
 };
-
 export const gameReducer: ActionReducer<GameState> = (state: GameState = INITIAL_STATE, action: Action) => {
   switch (action.type) {
 

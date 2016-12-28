@@ -10,12 +10,16 @@ export interface IPlayer extends ITile {
   direction: string;
   /** Player's Subject Index */
   subjectIndex: number;
+  /** Player Auto-Pilot Index */
+  pilotIndex: number;
   /** Player moving speed in ms */
   speed: number;
   /** Player lives */
   lives: boolean[];
   /** Player blood effect */
   blood: boolean;
+  /** Player route color */
+  color: string;
 }
 
 export const PlayerStates = {
@@ -34,4 +38,15 @@ export const PlayerDirections = {
 export const PlayerActions = {
   ATTACKING: "ATTACKING",
   GUARDING: "GUARDING"
+};
+
+export interface PlayerRoute {
+  player: IPlayer,
+  target: ITile
+}
+
+export const PlayerSprites = {
+  GRIM_REAPER: "/assets/guard.png",
+  HERO: "/assets/hero.png",
+  BOY: "/assets/boy.png"
 };

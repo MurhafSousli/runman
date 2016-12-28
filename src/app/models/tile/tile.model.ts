@@ -1,4 +1,6 @@
 import {Index, Search, ITile, TileStyle} from "./tile.interface";
+import {Helper} from "../../service/grid.helper";
+
 export class Tile implements ITile{
 
   /** Coordinates on the grid */
@@ -14,7 +16,7 @@ export class Tile implements ITile{
   /** Tile type */
   type: string;
 
-  constructor(index?: Index, walkable?: boolean) {
+  constructor(index?: Index, walkable?: boolean, sprite?:string) {
 
     this.search = {
       cost: 0,
@@ -23,6 +25,7 @@ export class Tile implements ITile{
     };
     this.index = index || {x: -1, y: -1};
     this.walkable = walkable || false;
+    this.sprite = sprite ? Helper.prefixUrl(sprite) : undefined;
     this.styles = {};
     this.type = 'tile';
   }

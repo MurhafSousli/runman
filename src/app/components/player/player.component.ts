@@ -5,7 +5,7 @@ import {PlayerStates} from "../../models";
 @Component({
   selector: 'player',
   templateUrl: 'player.component.html',
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlayerComponent {
 
@@ -17,6 +17,8 @@ export class PlayerComponent {
   @Input() action;
   @Input() direction;
   @Input() blood;
+  @Input() color;
+  @Input() sub;
 
   constructor(private grid: GridService) {
   }

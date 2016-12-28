@@ -5,7 +5,7 @@ import {GameModal} from "../../store/game.reducer";
 @Component({
   selector: 'modal',
   templateUrl: 'modal.component.html',
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ModalComponent {
 
@@ -22,13 +22,13 @@ export class ModalComponent {
   }
 
   getResult() {
-    switch (this.state.result) {
+    switch (this.state) {
       case GameModal.WON:
         this.icon = "fa fa-trophy";
         this.text = "You Won!";
         break;
       case GameModal.LOST:
-        this.icon = "fa fa-thumbs-down";
+        this.icon = "fa fa-frown-o";
         this.text = "You Lost!";
         break;
       case GameModal.TIME_UP:

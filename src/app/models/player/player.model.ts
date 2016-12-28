@@ -1,6 +1,7 @@
 import {Index} from "../tile/tile.interface";
 import {Tile} from "../tile/tile.model";
 import {IPlayer, PlayerStates, PlayerActions} from './player.interface';
+import {Helper} from "../../service/grid.helper";
 
 export class Player extends Tile implements IPlayer {
 
@@ -12,23 +13,26 @@ export class Player extends Tile implements IPlayer {
   direction: string;
   /** Player's Subject Index */
   subjectIndex: number;
+  /** Player Auto-Pilot Index */
+  pilotIndex: number;
   /** Player moving speed in ms */
   speed: number;
   /** Player lives */
   lives: boolean[];
   /** Player blood effect */
   blood: boolean;
+  /** Player route color */
+  color: string;
 
-  pilotIndex: number;
+  constructor(index?: Index, sprite?: string, type?: string) {
 
-  constructor(index?: Index, walkable?: boolean) {
-
-    super(index, walkable);
-
+    super(index, false);
+    this.sprite = Helper.prefixUrl(sprite);
     this.state = PlayerStates.IDLE;
     this.action = PlayerActions.GUARDING;
     this.speed = 300;
     this.lives = [true];
-    this.type += " player";
+    this.type += " player " + type;
+    this.color = 'rgba(249, 208, 82, .8)';
   }
 }

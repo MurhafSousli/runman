@@ -8,7 +8,7 @@ import {GridService} from "../../service/grid.service";
 })
 export class StateMessageComponent{
 
-  @Input('data') state;
+  @Input() state;
 
   constructor(private grid: GridService) { }
 

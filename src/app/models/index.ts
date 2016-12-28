@@ -2,10 +2,13 @@ import {Guard} from './guard/guard.model';
 import {Player} from './player/player.model';
 import {Tile} from './tile/tile.model';
 import {Hero} from './hero/hero.model';
+import {Index} from './tile/tile.interface';
 import {
   PlayerStates,
   PlayerDirections,
-  PlayerActions
+  PlayerActions,
+  PlayerRoute,
+  PlayerSprites
 } from './player/player.interface'
 
 export {
@@ -15,5 +18,8 @@ export {
   Tile,
   PlayerStates,
   PlayerDirections,
-  PlayerActions
+  PlayerActions,
+  PlayerRoute,
+  PlayerSprites,
+  Index
 }
