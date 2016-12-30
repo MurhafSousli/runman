@@ -1,28 +1,28 @@
 <state-info [state]="state"></state-info>
 
-<div class="grid" [style.height.px]="height" [style.width.px]="width">
-  <div *ngFor="let row of grid.grid">
-    <tile class="grid-tile" *ngFor="let tile of row"
-          [index]="tile.index"
-          [styles]="tile.styles"
-          [type]="tile.type"
-          [sprite]="tile.sprite"
-    ></tile>
+<div class="grid-container">
+  <div class="grid" [style.height.px]="height" [style.width.px]="width">
+    <div *ngFor="let row of grid.grid">
+      <tile class="grid-tile" *ngFor="let tile of row"
+            [index]="tile.index"
+            [styles]="tile.styles"
+            [type]="tile.type"
+            [sprite]="tile.sprite"
+      ></tile>
+    </div>
+    <player *ngFor="let player of state.players"
+            [index]="player.index"
+            [styles]="player.styles"
+            [type]="player.type"
+            [sprite]="player.sprite"
+            [state]="player.state"
+            [action]="player.action"
+            [direction]="player.direction"
+            [blood]="player.blood"
+            [color]="player.color"
+            [sub]="player.subjectIndex"
+    ></player>
+
   </div>
-  <player *ngFor="let player of state.players"
-          [index]="player.index"
-          [styles]="player.styles"
-          [type]="player.type"
-          [sprite]="player.sprite"
-          [state]="player.state"
-          [action]="player.action"
-          [direction]="player.direction"
-          [blood]="player.blood"
-          [color]="player.color"
-          [sub]="player.subjectIndex"
-  ></player>
-
 </div>
-
-<state-message [state]="state"></state-message>
 

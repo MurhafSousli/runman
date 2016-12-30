@@ -70,7 +70,7 @@ export module Helper {
             target.walkable = true;
             let route = PathFinder.searchPath(gridService, start, target);
             if (route.length) {
-                routes.push({route: route, target: player});
+              routes.push({route: route, target: player});
             }
             start.walkable = false;
             target.walkable = false;
@@ -78,8 +78,14 @@ export module Helper {
         });
     return routes
   };
-}
 
+  /** Get number of tiles can fit in view size */
+  export const getTileCount = (size, tileSize) => {
+    let tileCount = size / tileSize;
+    let roundNum = Math.round(tileCount);
+    return (tileCount < roundNum) ? roundNum - 1 : roundNum;
+  }
+}
 
 // export const setTileBackgroundColor = (tile: Tile, color: string) => {
 //   tile.styles.backgroundColor = color;

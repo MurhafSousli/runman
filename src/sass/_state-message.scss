@@ -1,11 +1,16 @@
+state-message{
+  width: 100%;
+}
 .state-message{
+  height: 55px;
   background-color: $bg-dark;
-  color: $text-color;
+  color: $action-color;
   position: relative;
-  flex: 1;
   display: flex;
+  width: 100%;
 
   .message{
+    margin-left: 70px;
     flex: 1;
     display: flex;
     font-size: .8em;
@@ -22,19 +27,24 @@
     right: 0;
     max-width: 120px;
   }
+
   .btn{
-    color: $action_color;
-    padding: 8px;
-    margin: 10px;
-    background-color: transparent;
+    position: fixed;
+    left: .677em;
+    bottom: .677em;
+    font-size: 1.4em;
+
+    color: white;
+    background-color: $btn-color;
+    padding: .677em;
     border-radius: 50%;
-    box-shadow: 0 0 4px rgba($text-color, .8);
+    box-shadow: 0 0 1px $action-color;
     transition: all 200ms linear;
     &:hover{
-      box-shadow: 0 0 10px rgba($text-color, .8);
+      box-shadow: 0 0 10px rgba($action-color, .8);
     }
     &:active{
-      box-shadow: 0 0 1px rgba($text-color, .8);
+      box-shadow: 0 0 1px rgba($action-color, .8);
     }
   }
 }

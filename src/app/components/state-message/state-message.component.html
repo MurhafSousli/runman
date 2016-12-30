@@ -1,10 +1,9 @@
 <div class="state-message">
-
-  <div class="btn" (click)="grid.cloneHero()"><i class="fa fa-users" aria-hidden="true"></i></div>
   <div class="message">
+    <div class="btn" (click)="grid.cloneHero()"><i class="fa fa-users" aria-hidden="true"></i></div>
     <div *ngIf="state.guard?.action === 'ATTACKING'" class="attack-state">
       <p>Grim reaper is coming... RUN!</p>
-      <img class="animated slideInUp" [src]="grimReaper">
+      <img class="animated slideInUp" [src]="state.guard?.avatar">
     </div>
     <div *ngIf="state.guard?.action !== 'ATTACKING'" class="attack-state">
       <p>Go to the flag, keep distance from guard area!</p>

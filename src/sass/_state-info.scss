@@ -1,6 +1,6 @@
 
 .state-info {
-  background-color: $action_color;
+  background-color: $game_bg;
   color: $bg-dark;
   text-shadow: 0 1px 0 rgba(0, 0, 0, .8);
   flex: 1;
@@ -20,7 +20,7 @@
 }
 .score{
   i{
-    color: $text-color;
+    color: $action-color;
   }
 }
 

@@ -1,6 +1,5 @@
-import {Guard} from "../models/guard/guard.model";
-import {Hero} from "../models/hero/hero.model";
-import {Tile} from "../models/tile/tile.model";
+import {Player, Guard, Hero, Tile} from "../models";
+import {List} from "../algorithm/list.class";
 
 export interface IGrid {
 
@@ -11,6 +10,10 @@ export interface IGrid {
   hero: Hero;
   guard: Guard;
   goal: Tile;
+  players: List<Player>;
+  /** Game score */
+  score: number;
+
 
   newGame(x: number, y: number, tileSize: number);
   moveHero(target: Tile);

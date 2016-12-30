@@ -49,5 +49,6 @@ export const PlayerSprites = {
   GRIM_REAPER: "../../assets/guard.png",
   HERO: "../../assets/hero.png",
   BOY: "../../assets/boy.png",
-  BLOOD: "../../assets/blood.png"
+  BLOOD: "../../assets/blood.png",
+  GRIM_REAPER_AVATAR: '../../assets/reaper.png'
 };

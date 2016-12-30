@@ -1,7 +1,6 @@
 import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core'
 import {Observable} from "rxjs/Observable"
 import {Store} from "@ngrx/store"
-import {GridService} from "../../service/grid.service"
 import {GameState} from "../../store/game.state"
 
 @Component({
@@ -13,17 +12,11 @@ export class GameComponent implements OnInit {
 
   gameState: Observable<GameState>;
 
-  constructor(private grid: GridService, private store: Store<GameState>) {
+  constructor(private store: Store<GameState>) {
   }
 
   ngOnInit() {
     this.gameState = this.store.select<GameState>('gameState');
-    /** Clone hero when space is clicked */
-    Observable.fromEvent(document, 'keyup').subscribe((e:KeyboardEvent) => {
-      if(e.keyCode === 32){
-        this.grid.cloneHero();
-      }
-    });
   }
 
 }

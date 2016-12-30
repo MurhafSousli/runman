@@ -17,6 +17,7 @@ import { RouteComponent } from './components/route/route.component'
 import {GridService} from './service/grid.service'
 import {StoreModule} from "@ngrx/store"
 import {gameReducer} from "./store/game.reducer";
+import { GameContainerComponent } from './components/game-container/game-container.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {gameReducer} from "./store/game.reducer";
     ModalComponent,
     StateMessageComponent,
     PointComponent,
-    RouteComponent
+    RouteComponent,
+    GameContainerComponent
   ],
   imports: [
     BrowserModule,

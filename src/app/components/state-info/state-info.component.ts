@@ -10,13 +10,11 @@ import {GridService} from "../../service/grid.service";
 export class StateInfoComponent implements OnInit{
 
   @Input() state: GameState;
-  pause;
 
   constructor(private grid: GridService){
   }
 
   ngOnInit(){
-    this.pause = this.grid.pauser$;
   }
 
   heroLives() {

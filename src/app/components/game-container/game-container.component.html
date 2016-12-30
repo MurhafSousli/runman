@@ -1,0 +1,6 @@
+<grid [state]="state"
+      [height]="height * grid.tileSize"
+      [width]="width * grid.tileSize"
+></grid>
+<state-message [state]="state"></state-message>
+<modal *ngIf="grid.pauser$ | async" [state]="state.state" [score]="state.score" ></modal>

@@ -54,13 +54,13 @@ export class GridService implements IGrid {
   pauser$: BehaviorSubject<boolean>;
 
   constructor(private store: Store<GameState>, private http: Http) {
-    this.newGame(12, 10, 50);
+    /** Pauser should be initialized here */
+    this.pauser$ = new BehaviorSubject(false);
   }
 
   newGame(x: number, y: number, tileSize: number) {
-    /** Prepare the grid */
-    this.pauser$ = new BehaviorSubject(false);
 
+    /** Prepare the grid */
     this.score = 0;
     this.tileSize = tileSize;
     this.width = x;
@@ -83,10 +83,12 @@ export class GridService implements IGrid {
     /** Load the map */
     this.http.get(Helper.prefixUrl('../../assets/map/map.json')).map(res => res.json()).subscribe(
       (res) => {
-        res.map((object) => {
-          let tile = new Tile(object.index, object.walkable, object.image);
-          tile.type += ' ' + object.type;
-          this.grid[object.index.x][object.index.y] = tile;
+        res.map((object: Tile) => {
+          if(object.index.x < x && object.index.y < y){
+            let tile = new Tile(object.index, object.walkable, object.sprite);
+            tile.type += ' ' + object.type;
+            this.grid[object.index.x][object.index.y] = tile;
+          }
         });
 
         this.pauser$.switchMap(paused => paused ? Observable.never() : this.startTimer(5 * 60))
