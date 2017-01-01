@@ -1,49 +1,50 @@
-state-message{
+state-message {
   width: 100%;
-}
-.state-message{
-  height: 55px;
   background-color: $bg-dark;
   color: $action-color;
+  height: 55px;
+}
+
+.state-message {
   position: relative;
   display: flex;
   width: 100%;
-
-  .message{
-    margin-left: 70px;
+  margin: 0 auto;
+  max-width: 600px;
+  .message-container {
     flex: 1;
     display: flex;
-    font-size: .8em;
-    .attack-state{
+    font-size: .9em;
+    align-content: center;
+
+    .message {
+      margin-left: 10px;
       flex: 1;
       overflow: hidden;
       display: flex;
       align-items: center;
     }
   }
-  img{
+  img {
     position: absolute;
-    top:-15px;
+    top: -15px;
     right: 0;
     max-width: 120px;
   }
 
-  .btn{
-    position: fixed;
-    left: .677em;
-    bottom: .677em;
-    font-size: 1.4em;
-
+  .btn {
+    margin: .6em;
+    font-size: 1.1em;
     color: white;
     background-color: $btn-color;
     padding: .677em;
     border-radius: 50%;
-    box-shadow: 0 0 1px $action-color;
+    box-shadow: 0 0 10px $bg-dark;
     transition: all 200ms linear;
-    &:hover{
+    &:hover {
       box-shadow: 0 0 10px rgba($action-color, .8);
     }
-    &:active{
+    &:active {
       box-shadow: 0 0 1px rgba($action-color, .8);
     }
   }

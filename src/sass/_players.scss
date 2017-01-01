@@ -1,22 +1,21 @@
-.player {
-  img {
-    max-height: 96%;
-  }
+.player .sprite {
+  max-height: 96%;
+  width: 100%;
+  background-position-x: 0;
 }
+
 .idle {
   animation: none !important;
 }
-.dead{
+
+.dead {
   display: none;
 }
-.grid img{
-  object-position: 0 0;
-}
 
-.point{
+.point {
   position: absolute;
-  width: 10px;
-  height: 10px;
-  margin: 20px 0 0 20px;
+  width: 5px;
+  height: 5px;
+  margin: 25px 0 0 25px;
   border-radius: 50%;
 }

@@ -1,13 +1,12 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy, OnInit} from '@angular/core';
 import {GridService} from "../../service/grid.service";
-import {GameModal} from "../../store/game.reducer";
-
+import {GameMode} from "../../store/game.reducer";
 @Component({
   selector: 'modal',
   templateUrl: 'modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ModalComponent {
+export class ModalComponent implements OnInit{
 
   @Input() state;
   @Input() score;
@@ -23,19 +22,19 @@ export class ModalComponent {
 
   getResult() {
     switch (this.state) {
-      case GameModal.WON:
+      case GameMode.WON:
         this.icon = "fa fa-trophy";
         this.text = "You Won!";
         break;
-      case GameModal.LOST:
+      case GameMode.LOST:
         this.icon = "fa fa-frown-o";
         this.text = "You Lost!";
         break;
-      case GameModal.TIME_UP:
+      case GameMode.TIME_UP:
         this.icon = "fa fa-hourglass-o";
         this.text = "Time's up!";
         break;
-      case GameModal.PAUSED:
+      case GameMode.PAUSED:
         this.icon = "fa fa-pause";
         this.text = "Paused";
         break;

@@ -10,7 +10,7 @@ export class Guard extends Player {
   constructor(index: Index) {
 
     super(index, PlayerSprites.GRIM_REAPER, 'guard');
-    this.color = 'rgba(255, 10, 10, 0.6)';
+    this.color = 'rgba(77, 61, 255, .6)';
     this.avatar = Helper.prefixUrl(PlayerSprites.GRIM_REAPER_AVATAR);
   }
 }

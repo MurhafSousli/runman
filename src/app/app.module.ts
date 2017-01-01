@@ -5,19 +5,19 @@ import {HttpModule} from '@angular/http'
 
 import {AppComponent} from './app.component'
 import {GameComponent} from './components/game/game.component'
+import {GameContainerComponent} from './components/game-container/game-container.component'
 import {GridComponent} from './components/grid/grid.component'
 import {TileComponent} from './components/tile/tile.component'
 import {PlayerComponent} from './components/player/player.component'
 import {StateInfoComponent} from './components/state-info/state-info.component'
 import {ModalComponent} from './components/modal/modal.component'
 import {StateMessageComponent} from './components/state-message/state-message.component'
-import { PointComponent } from './components/point/point.component';
-import { RouteComponent } from './components/route/route.component'
+import {PointComponent} from './components/point/point.component'
 
 import {GridService} from './service/grid.service'
 import {StoreModule} from "@ngrx/store"
-import {gameReducer} from "./store/game.reducer";
-import { GameContainerComponent } from './components/game-container/game-container.component';
+import {gameReducer} from "./store/game.reducer"
+import {AudioService} from "./audio/audio.service";
 
 @NgModule({
   declarations: [
@@ -30,7 +30,6 @@ import { GameContainerComponent } from './components/game-container/game-contain
     ModalComponent,
     StateMessageComponent,
     PointComponent,
-    RouteComponent,
     GameContainerComponent
   ],
   imports: [
@@ -39,7 +38,7 @@ import { GameContainerComponent } from './components/game-container/game-contain
     HttpModule,
     StoreModule.provideStore({gameState: gameReducer})
   ],
-  providers: [GridService],
+  providers: [GridService, AudioService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

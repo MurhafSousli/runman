@@ -13,10 +13,11 @@ export interface IGrid {
   players: List<Player>;
   /** Game score */
   score: number;
-
+  time: number;
 
   newGame(x: number, y: number, tileSize: number);
+  pauseGame();
+  resumeGame();
   moveHero(target: Tile);
   cloneHero();
-  updateStore();
 }

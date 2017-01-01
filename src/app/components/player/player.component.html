@@ -1,9 +1,9 @@
 <div [class]="type" [ngStyle]="getStyles()">
-  <img [src]="sprite" alt="" [ngClass]="getClasses()">
-  <div *ngIf="blood" class="blood-effect">
-    <img [src]="bloodSprite">
-  </div>
+  <div class="sprite" [ngClass]="getClasses()" [style.backgroundImage]="'url(' + sprite + ')'"></div>
+  <div class="blood" *ngIf="blood" [style.backgroundImage]="'url(' + bloodSprite + ')'"></div>
 </div>
-<route [route]="grid.players$[sub]"
-       [color]="color">
-</route>
+
+<point *ngFor="let point of route"
+       [index]="point.index"
+       [color]="action === 'ATTACKING' ? attackColor : color"
+></point>

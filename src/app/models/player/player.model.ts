@@ -23,6 +23,8 @@ export class Player extends Tile implements IPlayer {
   blood: boolean;
   /** Player route color */
   color: string;
+  /** Player route */
+  route;
 
   constructor(index?: Index, sprite?: string, type?: string) {
 
@@ -34,5 +36,6 @@ export class Player extends Tile implements IPlayer {
     this.lives = [true];
     this.type += " player " + type;
     this.color = 'rgba(249, 208, 82, .8)';
+    this.route = [];
   }
 }

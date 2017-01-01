@@ -4,6 +4,8 @@ grid {
   position: relative;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 600px;
 }
 
 .grid-container{
@@ -37,10 +39,6 @@ grid {
     display: flex;
     justify-content: center;
     align-items: center;
-    img{
-      object-fit: none;
-      height: 100%;
-    }
   }
 }
 

@@ -1,13 +1,14 @@
 import {Tile} from "../models";
 import {List} from "./list.class";
 import {GridService} from "../service/grid.service";
+import {Helper} from "../service/grid.helper";
 
 export module PathFinder {
 
   export function searchPath(gridService: GridService, start: Tile, end: Tile): Tile[] {
 
     /** Path validation */
-    if (JSON.stringify(start.index) === JSON.stringify(end.index)) {
+    if (Helper.hasSameIndex(start, end)) {
       console.log("the start tile = the end.");
       return [];
     }
@@ -35,7 +36,7 @@ export module PathFinder {
       currentTile = getTileWithLowestTotal(openList);
 
       //if the currentTile is the endTile, then we can stop searching
-      if (JSON.stringify(currentTile.index) === JSON.stringify(end.index)) {
+      if (Helper.hasSameIndex(currentTile, end)) {
         return shortestPath(gridService, start, end, openList, closedList);
       }
       else {
@@ -141,9 +142,7 @@ export module PathFinder {
       //check to see what newest current tile.
       for (let adjacentTile of adjacentTiles) {
         //check if it is the start tile
-        if (JSON.stringify(adjacentTile.index) === JSON.stringify(startTile.index)) {
-          return pathTiles;
-        }
+        if (Helper.hasSameIndex(adjacentTile, startTile)) return pathTiles;
 
         //It has to be inside the closedList or openList
         if (closedList.contains(adjacentTile) || openList.contains(adjacentTile)) {

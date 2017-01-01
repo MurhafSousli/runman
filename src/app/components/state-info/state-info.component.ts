@@ -23,4 +23,5 @@ export class StateInfoComponent implements OnInit{
       (i < this.state.hero.lives.length) ? lives.push(this.state.hero.lives[i]) : lives.push(false);
     return lives;
   }
+
 }

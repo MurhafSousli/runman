@@ -20,7 +20,8 @@
             [direction]="player.direction"
             [blood]="player.blood"
             [color]="player.color"
-            [sub]="player.subjectIndex"
+            [route]="player.route"
+            (click)="grid.attack(player)"
     ></player>
 
   </div>

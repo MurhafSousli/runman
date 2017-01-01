@@ -2,18 +2,9 @@
   {
     "index": {
       "x": 0,
-      "y": 0
-    },
-    "sprite": "../../assets/flag.png",
-    "walkable": true,
-    "type": "flag"
-  },
-  {
-    "index": {
-      "x": 0,
       "y": 2
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -21,7 +12,7 @@
       "x": 3,
       "y": 4
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -29,7 +20,7 @@
       "x": 1,
       "y": 5
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -37,7 +28,7 @@
       "x": 5,
       "y": 2
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -45,7 +36,7 @@
       "x": 2,
       "y": 5
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -53,7 +44,7 @@
       "x": 6,
       "y": 2
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -61,7 +52,7 @@
       "x": 2,
       "y": 4
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -69,7 +60,7 @@
       "x": 4,
       "y": 2
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -77,7 +68,7 @@
       "x": 6,
       "y": 7
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -85,7 +76,7 @@
       "x": 5,
       "y": 7
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -93,7 +84,7 @@
       "x": 4,
       "y": 7
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -101,7 +92,7 @@
       "x": 7,
       "y": 7
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -109,7 +100,7 @@
       "x": 5,
       "y": 1
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -117,7 +108,7 @@
       "x": 6,
       "y": 1
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -125,7 +116,7 @@
       "x": 7,
       "y": 1
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -133,7 +124,7 @@
       "x": 0,
       "y": 8
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -141,7 +132,7 @@
       "x": 0,
       "y": 9
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -149,7 +140,7 @@
       "x": 5,
       "y": 9
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -157,7 +148,7 @@
       "x": 6,
       "y": 9
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -165,7 +156,7 @@
       "x": 7,
       "y": 5
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -173,7 +164,7 @@
       "x": 10,
       "y": 5
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -181,7 +172,7 @@
       "x": 9,
       "y": 0
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   },
   {
@@ -189,7 +180,7 @@
       "x": 2,
       "y": 9
     },
-    "sprite": "../../assets/tree.png",
+    "sprite": "../../assets/img/tree.png",
     "walkable": false
   }
 ]

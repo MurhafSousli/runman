@@ -1,53 +1,59 @@
 .hero{
   transition: top 250ms linear, left 250ms linear, transform 200ms ease;
 
+  .sprite {
+    max-height: 96%;
+    width: 65%;
+    background-position-x: 0;
+  }
+
   .walkingBottom {
-    object-position: 0 0;
+    background-position: 0 0;
     animation: walkingBottom .5s steps(4) infinite;
   }
   .walkingLeft {
-    object-position: 0  -48px;
+    background-position: 0  -48px;
     animation: walkingLeft .5s steps(4) infinite;
   }
   .walkingRight {
-    object-position: 0 -96px;
+    background-position: 0 -96px;
     animation: walkingRight .5s steps(4) infinite;
   }
   .walkingTop {
-    object-position: 0 -144px;
+    background-position: 0 -144px;
     animation: walkingTop .5s steps(4) infinite;
   }
 
   @keyframes walkingBottom {
     from {
-      object-position: 0 0;
+      background-position: 0 0;
     }
     to {
-      object-position: -128px 0;
+      background-position: -128px 0;
     }
   }
   @keyframes walkingLeft {
     from {
-      object-position: 0 -48px;
+      background-position: 0 -48px;
     }
     to {
-      object-position: -128px -48px;
+      background-position: -128px -48px;
     }
   }
   @keyframes walkingRight {
     from {
-      object-position: 0 -96px;
+      background-position: 0 -96px;
     }
     to {
-      object-position: -128px -96px;
+      background-position: -128px -96px;
     }
   }
   @keyframes walkingTop {
     from {
-      object-position: 0 -144px;
+      background-position: 0 -144px;
     }
     to {
-      object-position: -128px -144px;
+      background-position: -128px -144px;
     }
   }
 }

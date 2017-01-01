@@ -1,4 +1,3 @@
-
 /* You can add global styles to this file, and also import other style files */
 body, html {
   height: 100%;
@@ -14,7 +13,7 @@ app-root {
   align-items: center;
 }
 
-header{
+header {
   z-index: 999;
   width: 100%;
   background-color: $bg-dark;
@@ -23,21 +22,35 @@ header{
   text-align: center;
   color: white;
 }
-game{
+
+game {
   flex: 1;
   width: 100%;
   display: flex;
 }
+
 game-container {
   flex: 1;
   display: flex;
   flex-direction: column;
   width: 100%;
   align-items: center;
-  background: url(assets/bg.png) repeat;
-  &:hover{
-    cursor: url(assets/cursor.png), default;
+  background: url(assets/img/bg.png) repeat;
+  &:hover {
+    cursor: url(assets/img/cursor.png), default;
   }
 }
 
-
+.sprite {
+  margin: auto;
+  position: absolute;
+  //left: 0;
+  //right: 0;
+  //top: 0;
+  //bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-origin: border-box;
+  background-position-x: 50%;
+}

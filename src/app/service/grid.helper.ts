@@ -8,11 +8,11 @@ export module Helper {
     return Math.floor(Math.random() * (max - min) + min);
   };
 
-  export const getRange = (maxIndex: number, index: number, range: number) => {
+  export const getRange = (maxIndex: number, currIndex: number, range: number) => {
 
     let minIndex = 0;
-    let min = index - range;
-    let max = index + range;
+    let min = currIndex - range;
+    let max = currIndex + range;
     return {
       min: (min < minIndex) ? minIndex : min,
       max: (max > maxIndex) ? maxIndex : max
@@ -35,11 +35,10 @@ export module Helper {
   };
 
 
-  /** get random target within range to move to (take a walk) */
+  /** get random **walkable** target within range (Auto-pilot) */
   export const getRandomTarget = (gridService: GridService, player: Player, range: number): Tile => {
-
     let tiles = Helper.getRangeTiles(gridService, player, range);
-    return tiles[Math.floor(Math.random() * tiles.length)];
+    return tiles.filter(tile => tile.walkable)[Math.floor(Math.random() * tiles.length)];
   };
 
   export const getPlayerDirection = (player: Player, target: Tile) => {
@@ -61,7 +60,7 @@ export module Helper {
         /** Search for players except the guard himself */
         players.filter(player => player !== guard).map((player) => {
 
-          if (JSON.stringify(gridService.grid[i][j].index) === JSON.stringify(player.index)) {
+          if (hasSameIndex(gridService.grid[i][j], player)) {
 
             /** If player detected */
             let start = gridService.grid[guard.index.x][guard.index.y];
@@ -84,7 +83,12 @@ export module Helper {
     let tileCount = size / tileSize;
     let roundNum = Math.round(tileCount);
     return (tileCount < roundNum) ? roundNum - 1 : roundNum;
-  }
+  };
+
+  /** Check if two tiles has the same index */
+  export const hasSameIndex = (src: Tile, target: Tile) =>{
+    return JSON.stringify(src.index) === JSON.stringify(target.index);
+  };
 }
 
 // export const setTileBackgroundColor = (tile: Tile, color: string) => {

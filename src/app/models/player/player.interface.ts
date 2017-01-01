@@ -20,6 +20,8 @@ export interface IPlayer extends ITile {
   blood: boolean;
   /** Player route color */
   color: string;
+  /** Player route */
+  route;
 }
 
 export const PlayerStates = {
@@ -46,9 +48,10 @@ export interface PlayerRoute {
 }
 
 export const PlayerSprites = {
-  GRIM_REAPER: "../../assets/guard.png",
-  HERO: "../../assets/hero.png",
-  BOY: "../../assets/boy.png",
-  BLOOD: "../../assets/blood.png",
-  GRIM_REAPER_AVATAR: '../../assets/reaper.png'
+  GRIM_REAPER: "../../assets/img/guard.png",
+  HERO: "../../assets/img/hero.png",
+  BOY: "../../assets/img/boy.png",
+  BLOOD: "../../assets/img/blood.png",
+  GRIM_REAPER_AVATAR: '../../assets/img/reaper.png',
+  FLAG: "../../assets/img/flag.png"
 };

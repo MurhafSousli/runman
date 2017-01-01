@@ -20,12 +20,14 @@ export class PlayerComponent {
   @Input() direction;
   @Input() blood;
   @Input() color;
-  @Input() sub;
+  @Input() route;
 
   bloodSprite;
+  attackColor;
 
   constructor(private grid: GridService) {
     this.bloodSprite = Helper.prefixUrl(PlayerSprites.BLOOD);
+    this.attackColor = 'rgba(255, 10, 10, 0.6)';
   }
 
   getStyles() {
@@ -38,13 +40,15 @@ export class PlayerComponent {
   }
 
   getClasses() {
+    let direction = this.direction || '';
     switch (this.state) {
       case PlayerStates.IDLE:
-        return this.direction + ' idle';
+        return direction + ' idle';
       case PlayerStates.DEAD:
         return 'dead';
       default:
-        return this.direction;
+        return direction;
     }
   }
+
 }

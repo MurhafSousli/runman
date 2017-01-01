@@ -1,33 +1,23 @@
-.blood-effect {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    animation: blood 1s steps(6) forwards;
-  }
+.blood {
+  background-position-x: 50%;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  animation: blood 1s steps(6) forwards;
 }
 
 @keyframes blood {
   0% {
-    object-position: 0 0;
+    background-position: 0 0;
   }
-  20%{
+  20% {
     opacity: 1;
   }
   40% {
-    object-position: 0 0;
+    background-position: 0 0;
   }
-  90% {
-    object-position: -300px 0;
-  }
-  100%{
+  100% {
+    background-position: -300px 0;
     opacity: 0;
   }
 }

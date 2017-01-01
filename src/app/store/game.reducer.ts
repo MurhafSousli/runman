@@ -1,6 +1,25 @@
 import {Action, ActionReducer} from '@ngrx/store';
 import {GameState} from "./game.state";
 
+export const GameStore = {
+  NEW_GAME: 'NEW_GAME',
+  GAME_STATE: 'GAME_STATE',
+  TIMER_TICK: 'TIMER_TICK'
+};
+
+export const GameMode = {
+  TIME_UP: "TIME'S UP",
+  PAUSED: "PAUSED",
+  WON: "WON",
+  LOST: "LOST",
+  PLAYING: "PLAYING"
+};
+
+export const GameSettings = {
+  TIME: 3 * 60,
+  SCAN_INTERVAL: 800,
+};
+
 const INITIAL_STATE: GameState = {
   grid: [],
   hero: undefined,
@@ -8,25 +27,13 @@ const INITIAL_STATE: GameState = {
   players: undefined,
   time: undefined,
   score: 0,
-  state: undefined
+  state: GameMode.PLAYING
 };
 
-export const GameStore = {
-  NEW_GAME: 'NEW_GAME',
-  GAME_OVER: 'GAME_OVER',
-  TIMER_TICK: 'TIMER_TICK'
-};
-
-export const GameModal = {
-  TIME_UP: "TIME'S UP",
-  PAUSED: "PAUSED",
-  WON: "WON",
-  LOST: "LOST"
-};
 export const gameReducer: ActionReducer<GameState> = (state: GameState = INITIAL_STATE, action: Action) => {
   switch (action.type) {
 
-    case GameStore.GAME_OVER:
+    case GameStore.GAME_STATE:
       return Object.assign({}, state, {state: action.payload});
 
     case GameStore.TIMER_TICK:

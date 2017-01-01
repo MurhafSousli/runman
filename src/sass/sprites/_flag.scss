@@ -1,14 +1,13 @@
-.flag img {
+.flag .sprite {
   animation: flag 1s steps(10) infinite;
-  width: 100%;
 }
 
 @keyframes flag {
   from {
-    object-position: 0 0;
+    background-position: 0 0;
   }
   to {
-    object-position: 0 -500px;
+    background-position: 0 -500px;
   }
 }
 

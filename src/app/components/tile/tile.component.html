@@ -1,3 +1,4 @@
 <div [class]="type" [ngStyle]="getStyles()" (click)="grid.moveHero(index)">
-  <img *ngIf="sprite" [src]="sprite">
+  <div class="sprite" *ngIf="sprite" [style.backgroundImage]="'url(' + sprite + ')'">
+  </div>
 </div>

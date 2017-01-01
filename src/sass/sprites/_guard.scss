@@ -1,52 +1,52 @@
 .guard {
 
   .walkingBottom {
-    object-position: 0 0;
+    background-position: 0 0;
     animation: walkingEnemyBottom .6s steps(4) infinite;
   }
   .walkingLeft {
-    object-position: 0  -48px;
+    background-position: 0  -48px;
     animation: walkingEnemyLeft .6s steps(4) infinite;
   }
   .walkingRight {
-    object-position: 0 -96px;
+    background-position: 0 -96px;
     animation: walkingEnemyRight .6s steps(4) infinite;
   }
   .walkingTop {
-    object-position: 0 -144px;
+    background-position: 0 -144px;
     animation: walkingEnemyTop .6s steps(4) infinite;
   }
 
   @keyframes walkingEnemyBottom {
     from {
-      object-position: 0 0;
+      background-position: 0 0;
     }
     to {
-      object-position: -200px 0;
+      background-position: -200px 0;
     }
   }
   @keyframes walkingEnemyLeft {
     from {
-      object-position: 0 -48px;
+      background-position: 0 -48px;
     }
     to {
-      object-position: -200px -48px;
+      background-position: -200px -48px;
     }
   }
   @keyframes walkingEnemyRight {
     from {
-      object-position: 0 -96px;
+      background-position: 0 -96px;
     }
     to {
-      object-position: -200px -96px;
+      background-position: -200px -96px;
     }
   }
   @keyframes walkingEnemyTop {
     from {
-      object-position: 0 -144px;
+      background-position: 0 -144px;
     }
     to {
-      object-position: -200px -144px;
+      background-position: -200px -144px;
     }
   }
 }
