@@ -4,7 +4,7 @@
     {{state.score}}
   </div>
   <div class="timer">
-    <i class="btn" (click)="grid.pauseGame()"><i class="fa fa-pause" aria-hidden="true"></i></i>
+    <i class="btn" (click)="game.pauseGame()"><i class="fa fa-pause" aria-hidden="true"></i></i>
     {{state.time | date:" mm:ss"}}
   </div>
   <div *ngIf="state.hero" class="lives">

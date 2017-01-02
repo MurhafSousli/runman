@@ -5,28 +5,25 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject"
 import {Observable} from "rxjs/Observable"
 import {Store} from "@ngrx/store"
 
-import {IGrid} from "./grid.interface"
+import {GameState} from "../store/game.state";
+import {AudioService} from "../audio/audio.service"
+import {Helper} from "../helpers/helper"
+import {List} from "../helpers/list.class"
+import {IGame} from "./game.interface"
 import {PathFinder} from "../algorithm/pathfinder"
-import {GameState} from "../store/game.state"
-import {GameStore, GameMode, GameSettings}  from "../store/game.reducer"
+import {Tile, Hero, Guard, Player} from "../models"
 import {
-  Tile,
-  Hero,
-  Guard,
-  Player,
+  GameStore,
+  GameMode,
+  GameSettings,
+  PlayerSprites,
   PlayerStates,
   PlayerActions,
-  PlayerDirections,
-  PlayerRoute,
-  PlayerSprites
-} from "../models"
-
-import {Helper} from "./grid.helper"
-import {List} from "../algorithm/list.class";
-import {AudioService} from "../audio/audio.service";
+  PlayerDirections
+} from "../store/game.const"
 
 @Injectable()
-export class GridService implements IGrid {
+export class GameService implements IGame {
 
   /** Grid Tiles */
   grid: Tile[][];
@@ -34,7 +31,7 @@ export class GridService implements IGrid {
   width: number;
   tileSize: number;
 
-  /** Main character pointers */
+  /** Main characters */
   hero: Hero;
   guard: Guard;
   goal: Tile;
@@ -42,17 +39,17 @@ export class GridService implements IGrid {
   players: List<Player>;
   /** Game score */
   score: number;
-  /** Game Timer (representing 5 min) */
+  /** Game Timer */
   time: number;
 
+  /** To pause the game */
+  pauser$: BehaviorSubject<boolean>;
+  /** To stream only recent routes to players */
   players$: List<Subject<any>>;
-  autoPilot$: List<Observable<any>>;
-  /** To stream only recent routes */
+  /** To get routes from pathfinder */
   routing$: Subject<any>;
   /** To unsubscribe from all streams when game is over. */
   gameOver$: Subject<any>;
-  /** Game Pauser */
-  pauser$: BehaviorSubject<boolean>;
   /** For attacking actions */
   attacking$: Subject<any>;
 
@@ -61,31 +58,28 @@ export class GridService implements IGrid {
     this.pauser$ = new BehaviorSubject(false);
   }
 
-  newGame(x: number, y: number, tileSize: number) {
+  newGame(x: number, y: number) {
     if (this.gameOver$) this.gameOver$.next(true);
-    /** Prepare the grid */
-    this.time = GameSettings.TIME;
-    this.score = 0;
-    this.tileSize = tileSize;
+    /** Prepare the grid, initialize all variables */
+    this.grid = [];
     this.width = x;
     this.height = y;
-    this.grid = [];
+    this.tileSize = GameSettings.TILE_SIZE;
+    this.time = GameSettings.TIME;
+    this.score = 0;
     this.players = new List<Player>();
     this.players$ = new List<Subject<any>>();
-    this.autoPilot$ = new List<Subject<any>>();
     this.routing$ = new Subject();
     this.attacking$ = new Subject();
     this.gameOver$ = new Subject();
-    /** Draw the base */
+    /** Draw the grid */
     for (let i = 0; i < x; i++) {
       this.grid[i] = [];
-      for (let j = 0; j < y; j++) {
-        let tile = new Tile({x: i, y: j}, true);
-        this.grid[i].push(tile);
-      }
+      for (let j = 0; j < y; j++)
+        this.grid[i].push(new Tile({x: i, y: j}, true));
     }
     /** Load the map */
-    this.loadMap(x, y).subscribe();
+    this.loadMap().subscribe();
   }
 
   pauseGame() {
@@ -98,74 +92,61 @@ export class GridService implements IGrid {
 
   moveHero(index) {
     let target = this.grid[index.x][index.y];
-    this.routing$.next({player: this.hero, target: target});
+    if (target.walkable) this.routing$.next({player: this.hero, target: target});
   }
 
-  cloneHero() {
-    /** Get random close place in range of 1 */
+  addBot() {
     let target = Helper.getRandomTarget(this, this.hero, 2);
-    /** Add fake hero to the target */
-    let player = new Player({x: target.index.x, y: target.index.y}, PlayerSprites.BOY, 'hero');
-    player.subjectIndex = this.players$.push(new Subject<Tile[]>()) - 1;
-    player.pilotIndex = this.autoPilot$.push(new Observable()) - 1;
-    this.players.push(player);
-
-    this.pauser$.switchMap(paused => paused ? Observable.never() : this.moveStream(player))
-      .takeUntil(this.gameOver$).subscribe();
-    this.pauser$.switchMap(paused => paused ? Observable.never() : this.pilotStream(player))
-      .takeUntil(this.gameOver$).subscribe();
+    let player = new Player(target.index, PlayerSprites.BOY, 'hero');
+    this.addPlayer(player);
   }
 
-  private loadMap(x, y) {
-    return this.http.get(Helper.prefixUrl('../../assets/map/map.json')).map(res => res.json()).do(
-      (res) => {
-        res.map((object: Tile) => {
-          if (object.index.x < x && object.index.y < y) {
-            let tile = new Tile(object.index, object.walkable, object.sprite);
-            tile.type += ' ' + object.type;
-            this.grid[object.index.x][object.index.y] = tile;
-          }
-        });
-        /** Set goal */
-        this.goal = this.grid[0][0];
-        this.goal.type += " flag";
-        this.goal.sprite = Helper.prefixUrl(PlayerSprites.FLAG);
-        /** Set hero */
-        this.hero = new Hero({x: x - 1, y: y - 1});
-        this.players.push(this.hero);
-        this.hero.subjectIndex = this.players$.push(new Subject<Tile[]>()) - 1;
-        /** Set Enemy */
-        this.guard = new Guard({x: 0, y: 0});
-        this.players.push(this.guard);
-        this.guard.subjectIndex = this.players$.push(new Subject<Tile[]>()) - 1;
-        this.guard.pilotIndex = this.autoPilot$.push(new Subject<Tile[]>()) - 1;
-        /** Start Timer */
-        this.pauser$.switchMap(paused => paused ? Observable.never() : this.timerStream(this.time))
-          .takeUntil(this.gameOver$).subscribe();
-        /** Start Routing */
-        this.pauser$.switchMap(paused => paused ? Observable.never() : this.routingStream())
-          .takeUntil(this.gameOver$).subscribe();
-        /** Movement stream for all players */
-        this.players.map((player) => {
-          this.pauser$.switchMap(paused => paused ? Observable.never() : this.moveStream(player))
+  private loadMap() {
+    return this.http.get(Helper.prefixUrl('../../assets/map/map.json'))
+      .map(res => res.json())
+      .do((res) => {
+          res.map((t: Tile) => {
+            if (t.index.x < this.width && t.index.y < this.height) {
+              let tile = new Tile(t.index, t.walkable, t.sprite);
+              tile.type += ' ' + t.type;
+              this.grid[t.index.x][t.index.y] = tile;
+            }
+          });
+          /** Set goal */
+          this.goal = this.grid[0][0];
+          this.goal.type += " flag";
+          this.goal.sprite = Helper.prefixUrl(PlayerSprites.FLAG);
+
+          /** Add hero */
+          this.hero = new Hero({x: this.width - 1, y: this.height - 1});
+          this.addPlayer(this.hero);
+
+          /** Add guard */
+          this.guard = new Guard({x: 0, y: 0});
+          this.addPlayer(this.guard);
+
+          /** Start timer */
+          this.pauser$.switchMap(paused => paused ? Observable.never() : this.timerStream(this.time))
             .takeUntil(this.gameOver$).subscribe();
-        });
-        /** Auto-pilot (for the guard) */
-        this.pauser$.switchMap(paused => paused ? Observable.never() : this.pilotStream(this.guard))
-          .takeUntil(this.gameOver$).subscribe();
-        /** Scanner (for the guard) */
-        this.pauser$.switchMap(paused => paused ? Observable.never() : this.scanStream(this.guard))
-          .takeUntil(this.gameOver$).subscribe();
-        /** Attacking Stream (probably for the guard) */
-        this.pauser$.switchMap(paused => paused ? Observable.never() : this.attackingStream())
-          .takeUntil(this.gameOver$).subscribe();
-      },
-      (err) => console.warn('LOAD MAP: ', err),
-      () => {
-        this.gameState(GameMode.PLAYING);
-        this.updateStore();
-      }
-    );
+
+          /** Start routing */
+          this.pauser$.switchMap(paused => paused ? Observable.never() : this.routingStream())
+            .takeUntil(this.gameOver$).subscribe();
+
+          /** Attacking stream (for the guard) */
+          this.pauser$.switchMap(paused => paused ? Observable.never() : this.attackingStream())
+            .takeUntil(this.gameOver$).subscribe();
+
+          /** Scanner (for the guard) */
+          this.pauser$.switchMap(paused => paused ? Observable.never() : this.scanStream(this.guard))
+            .takeUntil(this.gameOver$).subscribe();
+        },
+        (err) => console.warn('LOAD MAP: ', err),
+        () => {
+          this.gameState(GameMode.PLAYING);
+          this.updateStore();
+        }
+      );
   }
 
   /** Move player one step */
@@ -182,8 +163,9 @@ export class GridService implements IGrid {
   /** Stream player's steps to target */
   private moveStream(player: Player) {
     /** Stream recent route */
-    return this.players$[player.subjectIndex].switchMap((target) => {
-      return Observable.timer(0, player.speed)
+    return this.players$[player.routingIndex].switchMap((target) => {
+      return Observable
+        .timer(0, player.speed)
         .take(player.route.length)
         .map(() => player.route.pop())
         .do((nextTile) => {
@@ -206,10 +188,8 @@ export class GridService implements IGrid {
             setTimeout(() => {
               /** If guard is attacking target */
               if (target && player === this.guard && !player.route.length) {
-                console.log("Something");
                 let route = Helper.scan(this, this.guard, this.players, 1);
-                if (route.length)
-                  this.attacking$.next({attacker: player, victim: route[0].target});
+                if (route.length) this.attacking$.next({attacker: player, victim: route[0].target});
               }
               /** Set player state to idle after he reaches the target */
               else player.state = PlayerStates.IDLE;
@@ -222,21 +202,21 @@ export class GridService implements IGrid {
 
   /** Move a player randomly in specific range */
   private pilotStream(player: Player) {
-    /** Use 'repeat' instead of 'interval' to get new random interval every time */
-    return Observable.timer(0, Helper.getRandomBetween(1000, 2500))
+    return Observable
+      .timer(0, Helper.getRandomBetween(1200, 2500))
       .do(() => {
         if (player.action === PlayerActions.ATTACKING) return;
         let target = Helper.getRandomTarget(this, player, 3);
-        if (this.autoPilot$[player.pilotIndex])
+        if (this.players.contains(player))
           this.routing$.next({player: player, target: target});
       })
       .repeat()
-      .takeWhile(() => this.autoPilot$[player.pilotIndex] !== undefined);
+      .takeWhile(() => this.players.contains(player));
   }
 
   /** Move player to target using PathFinder */
   private routingStream() {
-    return this.routing$.do((res: PlayerRoute) => {
+    return this.routing$.do((res) => {
         /** Set player's tile to walkable for the PathFinder */
         let start = this.grid[res.player.index.x][res.player.index.y];
         start.walkable = true;
@@ -248,7 +228,7 @@ export class GridService implements IGrid {
           return;
         }
         res.player.route = nextRoute;
-        this.players$[res.player.subjectIndex].next();
+        this.players$[res.player.routingIndex].next();
       },
       (err) => {
         console.warn(err)
@@ -258,21 +238,23 @@ export class GridService implements IGrid {
 
   /** Scan for players in range (GUARD ONLY) */
   private scanStream(player: Player) {
-    return Observable.timer(0, GameSettings.SCAN_INTERVAL).do(() => {
+    return Observable
+      .timer(0, GameSettings.SCAN_INTERVAL)
+      .do(() => {
 
-      let routes = Helper.scan(this, player, this.players, 5);
-      if (routes.length) {
-        player.action = PlayerActions.ATTACKING;
-        /** Get the closest target */
-        let res = routes.reduce((prev, next) => prev.route.length > next.route.length ? next : prev);
-        /** Remove the target tile from next route */
-        res.route.shift();
-        player.route = res.route;
-        this.players$[player.subjectIndex].next(res.target);
-      }
-      else
-        player.action = PlayerActions.GUARDING;
-    });
+        let routes = Helper.scan(this, player, this.players, 5);
+        if (routes.length) {
+          player.action = PlayerActions.ATTACKING;
+          /** Get the closest target */
+          let res = routes.reduce((prev, next) => prev.route.length > next.route.length ? next : prev);
+          /** Remove the target tile from next route */
+          res.route.shift();
+          player.route = res.route;
+          this.players$[player.routingIndex].next(res.target);
+        }
+        else
+          player.action = PlayerActions.GUARDING;
+      });
   }
 
   /** Game timer */
@@ -292,10 +274,10 @@ export class GridService implements IGrid {
     })
   }
 
+  /** player attack another player */
   private attackingStream() {
     return this.attacking$.exhaustMap(res => {
       /** Change attacker direction towards the victim */
-      console.log("Attack Go");
       let attacker = res.attacker;
       let victim = res.victim;
       attacker.direction = Helper.getPlayerDirection(attacker, victim);
@@ -318,33 +300,46 @@ export class GridService implements IGrid {
       }
       attacker.styles = Object.assign({}, attacker.styles, {transform: transform});
 
-      return Observable.of(null).delay(attacker.speed).do(() => {
-        console.log("Attack Back");
-        attacker.styles = Object.assign({}, attacker.styles, {transform: 'translate(0, 0)'});
-        /** Add blood effect */
-        victim.blood = true;
-        setTimeout(() => victim.blood = false, 1000);
+      return Observable.of(null)
+        .delay(attacker.speed)
+        .do(() => {
+          attacker.styles = Object.assign({}, attacker.styles, {transform: 'translate(0, 0)'});
+          attacker.state = PlayerStates.IDLE;
+          /** Add blood effect & remove after 1 second */
+          victim.blood = true;
+          setTimeout(() => victim.blood = false, 1000);
 
-        /** remove one life from victim & remove him if he has no more lives */
-        if (victim.lives.length) {
-          victim.lives.pop();
-          if (!victim.lives.length) setTimeout(this.removePlayer(victim), 1000);
-        }
-        this.updateStore();
-      });
+          /** remove one life from victim & remove him if he has no more lives */
+          if (victim.lives.length) {
+            victim.lives.pop();
+            if (!victim.lives.length) setTimeout(this.removePlayer(victim), 1000);
+          }
+          this.updateStore();
+        });
     });
+  }
+
+  private addPlayer(player: Player) {
+
+    this.grid[player.index.x][player.index.y].walkable = false;
+    this.players.push(player);
+    player.routingIndex = this.players$.push(new Subject<Tile[]>()) - 1;
+
+    this.pauser$.switchMap(paused => paused ? Observable.never() : this.moveStream(player))
+      .takeUntil(this.gameOver$).subscribe();
+
+    if (player.bot)
+      this.pauser$.switchMap(paused => paused ? Observable.never() : this.pilotStream(player))
+        .takeUntil(this.gameOver$).subscribe();
   }
 
   private removePlayer(player: Player) {
     /** Remove & Unsubscribe automatically */
     this.audio.dead();
-    if (player.pilotIndex)
-      this.autoPilot$.remove(this.autoPilot$[player.pilotIndex]);
 
-    this.players$.remove(this.players$[player.subjectIndex]);
+    this.players$.remove(this.players$[player.routingIndex]);
     this.grid[player.index.x][player.index.y].walkable = true;
     this.players.remove(player);
-
 
     if (player === this.hero) this.gameState(GameMode.LOST);
   }
@@ -367,10 +362,7 @@ export class GridService implements IGrid {
         players: this.players,
         score: this.score
       },
-      type: ''
+      type: GameStore.UPDATE_STORE
     });
   }
-
 }
-
-

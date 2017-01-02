@@ -1,7 +1,7 @@
 import {Player} from "../player/player.model";
 import {Index} from "../tile/tile.interface";
-import {PlayerSprites} from "../player/player.interface";
-import {Helper} from "../../service/grid.helper";
+import {Helper} from "../../helpers/helper";
+import {PlayerSprites} from "../../store/game.const";
 
 export class Guard extends Player {
 
@@ -10,7 +10,7 @@ export class Guard extends Player {
   constructor(index: Index) {
 
     super(index, PlayerSprites.GRIM_REAPER, 'guard');
-    this.color = 'rgba(77, 61, 255, .6)';
+    this.color = 'rgba(0, 0, 0, .4)';
     this.avatar = Helper.prefixUrl(PlayerSprites.GRIM_REAPER_AVATAR);
   }
 }

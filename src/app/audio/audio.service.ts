@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {Helper} from "../helpers/helper";
 
 @Injectable()
 export class AudioService {
@@ -7,19 +8,13 @@ export class AudioService {
 
   constructor() {
     this.removePlayerSound = new Audio();
-    this.removePlayerSound.src = AudioFiles.KILLED;
+    this.removePlayerSound.src = Helper.prefixUrl(AudioFiles.KILLED);
     this.removePlayerSound.load();
   }
 
   dead() {
     this.removePlayerSound.play();
   }
-  // won(){
-  //   this.audio.play();
-  // }
-  // timeUp(){
-  //   this.audio.play();
-  // }
 
 }
 

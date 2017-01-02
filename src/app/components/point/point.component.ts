@@ -1,20 +1,16 @@
-import {Component, OnInit, Input, ChangeDetectionStrategy} from '@angular/core';
-import {Index} from "../../models";
-import {GridService} from "../../service/grid.service";
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
+import {Index} from "../../models"
+import {GameService} from "../../service/game.service"
 
 @Component({
   selector: 'point',
   templateUrl: './point.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PointComponent implements OnInit {
+export class PointComponent {
 
   @Input() index: Index;
   @Input() color: string;
 
-  constructor(private grid: GridService) { }
-
-  ngOnInit() {
-  }
-
+  constructor(private game: GameService) { }
 }

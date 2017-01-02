@@ -1,5 +1,5 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import {GridService} from "../../service/grid.service";
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
+import {GameService} from "../../service/game.service"
 
 @Component({
   selector: 'tile',
@@ -13,15 +13,15 @@ export class TileComponent {
   @Input() type;
   @Input() sprite;
 
-  constructor(private grid: GridService) {
+  constructor(private game: GameService) {
   }
 
   getStyles() {
     return Object.assign({}, this.styles, {
-      left: this.index.x * this.grid.tileSize + "px",
-      top: this.index.y * this.grid.tileSize + "px",
-      width: this.grid.tileSize + "px",
-      height: this.grid.tileSize + "px"
+      left: this.index.x * this.game.tileSize + "px",
+      top: this.index.y * this.game.tileSize + "px",
+      width: this.game.tileSize + "px",
+      height: this.game.tileSize + "px"
     });
   }
 }

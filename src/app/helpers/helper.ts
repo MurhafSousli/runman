@@ -1,13 +1,21 @@
-import {GridService} from "./grid.service";
-import {Player, Tile, PlayerDirections} from "../models";
+import {GameService} from "../service/game.service";
+import {Player, Tile} from "../models";
 import {PathFinder} from "../algorithm/pathfinder";
+import {PlayerDirections} from "../store/game.const";
 
 export module Helper {
 
-  export const getRandomBetween = (min, max) => {
+  /** Prefix base url for GitHub pages */
+  export const prefixUrl = (link) => {
+    return "runman" + link;
+  };
+
+  /** Get random number from a range */
+  export const getRandomBetween = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min) + min);
   };
 
+  /** Get the available range within the grid */
   export const getRange = (maxIndex: number, currIndex: number, range: number) => {
 
     let minIndex = 0;
@@ -19,38 +27,36 @@ export module Helper {
     };
   };
 
-  export const getRangeTiles = (gridService: GridService, start: Tile, range: number) => {
-    let xRange = getRange(gridService.width - 1, start.index.x, range);
-    let yRange = getRange(gridService.height - 1, start.index.y, range);
+  /** Get the tiles of a selected range */
+  export const getRangeTiles = (game: GameService, start: Tile, range: number) => {
+    let xRange = getRange(game.width - 1, start.index.x, range);
+    let yRange = getRange(game.height - 1, start.index.y, range);
     let tiles = [];
     for (let i = xRange.min; i <= xRange.max; i++)
       for (let j = yRange.min; j <= yRange.max; j++)
-        if (gridService.grid[i][j].walkable)
-          tiles.push(gridService.grid[i][j]);
+        if (game.grid[i][j].walkable)
+          tiles.push(game.grid[i][j]);
     return tiles;
   };
 
-  export const prefixUrl = (link) => {
-    return "runman" + link;
-  };
-
-
-  /** get random **walkable** target within range (Auto-pilot) */
-  export const getRandomTarget = (gridService: GridService, player: Player, range: number): Tile => {
-    let tiles = Helper.getRangeTiles(gridService, player, range);
+  /** get random **walkable** target within a range (Auto-pilot) */
+  export const getRandomTarget = (game: GameService, player: Player, range: number): Tile => {
+    let tiles = getRangeTiles(game, player, range);
     return tiles.filter(tile => tile.walkable)[Math.floor(Math.random() * tiles.length)];
   };
 
+  /** Get player direction towards the target */
   export const getPlayerDirection = (player: Player, target: Tile) => {
     return (target.index.x === player.index.x) ?
       (target.index.y > player.index.y) ? PlayerDirections.BOTTOM : PlayerDirections.TOP
       : (target.index.x > player.index.x) ? PlayerDirections.RIGHT : PlayerDirections.LEFT;
   };
 
-  export const scan = (gridService: GridService, guard: Player, players: Player[], range?: number) => {
+  /** Search for players in a range */
+  export const scan = (game: GameService, guard: Player, players: Player[], range?: number) => {
 
-    let xRange = Helper.getRange(gridService.width - 1, guard.index.x, range);
-    let yRange = Helper.getRange(gridService.height - 1, guard.index.y, range);
+    let xRange = getRange(game.width - 1, guard.index.x, range);
+    let yRange = getRange(game.height - 1, guard.index.y, range);
 
     let routes = [];
     /** Search the range for players */
@@ -60,17 +66,17 @@ export module Helper {
         /** Search for players except the guard himself */
         players.filter(player => player !== guard).map((player) => {
 
-          if (hasSameIndex(gridService.grid[i][j], player)) {
+          if (hasSameIndex(game.grid[i][j], player)) {
 
             /** If player detected */
-            let start = gridService.grid[guard.index.x][guard.index.y];
-            let target = gridService.grid[player.index.x][player.index.y];
+            let start = game.grid[guard.index.x][guard.index.y];
+            let target = game.grid[player.index.x][player.index.y];
             start.walkable = true;
             target.walkable = true;
-            let route = PathFinder.searchPath(gridService, start, target);
-            if (route.length) {
-              routes.push({route: route, target: player});
-            }
+
+            let route = PathFinder.searchPath(game, start, target);
+            if (route.length) routes.push({route: route, target: player});
+
             start.walkable = false;
             target.walkable = false;
           }
@@ -86,16 +92,13 @@ export module Helper {
   };
 
   /** Check if two tiles has the same index */
-  export const hasSameIndex = (src: Tile, target: Tile) =>{
+  export const hasSameIndex = (src: Tile, target: Tile) => {
     return JSON.stringify(src.index) === JSON.stringify(target.index);
   };
+
+  export const setTileBackgroundColor = (tile: Tile, color: string) => {
+    tile.styles.backgroundColor = color;
+  };
+
 }
 
-// export const setTileBackgroundColor = (tile: Tile, color: string) => {
-//   tile.styles.backgroundColor = color;
-// };
-
-// export const setTileBackgroundImage = (tile: Tile, src: string, position?: string) => {
-//   tile.styles.backgroundImage = "url(" + src + ")" || "";
-//   tile.styles.backgroundPosition = position || "";
-// };

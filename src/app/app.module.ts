@@ -14,7 +14,7 @@ import {ModalComponent} from './components/modal/modal.component'
 import {StateMessageComponent} from './components/state-message/state-message.component'
 import {PointComponent} from './components/point/point.component'
 
-import {GridService} from './service/grid.service'
+import {GameService} from './service/game.service'
 import {StoreModule} from "@ngrx/store"
 import {gameReducer} from "./store/game.reducer"
 import {AudioService} from "./audio/audio.service";
@@ -38,7 +38,7 @@ import {AudioService} from "./audio/audio.service";
     HttpModule,
     StoreModule.provideStore({gameState: gameReducer})
   ],
-  providers: [GridService, AudioService],
+  providers: [GameService, AudioService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

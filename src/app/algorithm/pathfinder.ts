@@ -1,11 +1,11 @@
 import {Tile} from "../models";
-import {List} from "./list.class";
-import {GridService} from "../service/grid.service";
-import {Helper} from "../service/grid.helper";
+import {List} from "../helpers/list.class";
+import {GameService} from "../service/game.service";
+import {Helper} from "../helpers/helper";
 
 export module PathFinder {
 
-  export function searchPath(gridService: GridService, start: Tile, end: Tile): Tile[] {
+  export function searchPath(game: GameService, start: Tile, end: Tile): Tile[] {
 
     /** Path validation */
     if (Helper.hasSameIndex(start, end)) {
@@ -37,7 +37,7 @@ export module PathFinder {
 
       //if the currentTile is the endTile, then we can stop searching
       if (Helper.hasSameIndex(currentTile, end)) {
-        return shortestPath(gridService, start, end, openList, closedList);
+        return shortestPath(game, start, end, openList, closedList);
       }
       else {
         //move the current tile to the closed list and remove it from the open list.
@@ -45,7 +45,7 @@ export module PathFinder {
         closedList.push(currentTile);
 
         //Get all adjacent Tiles
-        let adjacentTiles = getAdjacentTiles(gridService, currentTile);
+        let adjacentTiles = getAdjacentTiles(game, currentTile);
 
         for (let adjacentTile of adjacentTiles) {
           //Get tile is not in the open list
@@ -84,29 +84,29 @@ export module PathFinder {
     return tileWithLowestTotal;
   };
 
-  const getAdjacentTiles = (gridService: GridService, current: Tile): Tile[] => {
+  const getAdjacentTiles = (game: GameService, current: Tile): Tile[] => {
     let adjacentTiles: Tile[] = [];
     let adjacentTile: Tile;
 
     //Tile to left
     if (current.index.x - 1 >= 0) {
-      adjacentTile = gridService.grid[current.index.x - 1][current.index.y];
+      adjacentTile = game.grid[current.index.x - 1][current.index.y];
       if (adjacentTile && adjacentTile.walkable) {
         adjacentTiles.push(adjacentTile);
       }
     }
 
     //Tile to right
-    if (current.index.x + 1 < gridService.width) {
-      adjacentTile = gridService.grid[current.index.x + 1][current.index.y];
+    if (current.index.x + 1 < game.width) {
+      adjacentTile = game.grid[current.index.x + 1][current.index.y];
       if (adjacentTile && adjacentTile.walkable) {
         adjacentTiles.push(adjacentTile);
       }
     }
 
     //Tile to Under
-    if (current.index.y + 1 < gridService.height) {
-      adjacentTile = gridService.grid[current.index.x][current.index.y + 1];
+    if (current.index.y + 1 < game.height) {
+      adjacentTile = game.grid[current.index.x][current.index.y + 1];
       if (adjacentTile && adjacentTile.walkable) {
         adjacentTiles.push(adjacentTile);
       }
@@ -114,7 +114,7 @@ export module PathFinder {
 
     //Tile to Above
     if (current.index.y - 1 >= 0) {
-      adjacentTile = gridService.grid[current.index.x][current.index.y - 1];
+      adjacentTile = game.grid[current.index.x][current.index.y - 1];
       if (adjacentTile && adjacentTile.walkable) {
         adjacentTiles.push(adjacentTile);
       }
@@ -129,7 +129,7 @@ export module PathFinder {
       (endTile.index.y - adjacentTile.index.y));
   };
 
-  const shortestPath = (gridService: GridService, startTile: Tile, endTile: Tile, openList: List<Tile>, closedList: List<Tile>) => {
+  const shortestPath = (game: GameService, startTile: Tile, endTile: Tile, openList: List<Tile>, closedList: List<Tile>) => {
     let startFound: boolean = false;
     let currentTile = endTile;
     let pathTiles = [];
@@ -138,7 +138,7 @@ export module PathFinder {
     pathTiles.push(endTile);
 
     while (!startFound) {
-      let adjacentTiles = getAdjacentTiles(gridService, currentTile);
+      let adjacentTiles = getAdjacentTiles(game, currentTile);
       //check to see what newest current tile.
       for (let adjacentTile of adjacentTiles) {
         //check if it is the start tile

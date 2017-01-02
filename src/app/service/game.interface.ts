@@ -1,7 +1,7 @@
 import {Player, Guard, Hero, Tile} from "../models";
-import {List} from "../algorithm/list.class";
+import {List} from "../helpers/list.class";
 
-export interface IGrid {
+export interface IGame {
 
   grid: Tile[][];
   height: number;
@@ -15,9 +15,9 @@ export interface IGrid {
   score: number;
   time: number;
 
-  newGame(x: number, y: number, tileSize: number);
+  newGame(x: number, y: number);
   pauseGame();
   resumeGame();
   moveHero(target: Tile);
-  cloneHero();
+  addBot();
 }

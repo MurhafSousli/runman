@@ -32,7 +32,5 @@ export interface TileStyle {
   top?;
   backgroundColor?;
   backgroundImage?;
-  backgroundPosition?;
-  backgroundSize?;
   transform?;
 }

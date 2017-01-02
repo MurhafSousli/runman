@@ -1,20 +1,17 @@
-import {Component, Input, ChangeDetectionStrategy, OnInit} from '@angular/core';
-import {GameState} from "../../store/game.state";
-import {GridService} from "../../service/grid.service";
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
+import {GameState} from "../../store/game.state"
+import {GameService} from "../../service/game.service"
 
 @Component({
   selector: 'state-info',
   templateUrl: 'state-info.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StateInfoComponent implements OnInit{
+export class StateInfoComponent{
 
   @Input() state: GameState;
 
-  constructor(private grid: GridService){
-  }
-
-  ngOnInit(){
+  constructor(private game: GameService){
   }
 
   heroLives() {

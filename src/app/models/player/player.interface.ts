@@ -9,9 +9,9 @@ export interface IPlayer extends ITile {
   /** Player sprite direction */
   direction: string;
   /** Player's Subject Index */
-  subjectIndex: number;
-  /** Player Auto-Pilot Index */
-  pilotIndex: number;
+  routingIndex: number;
+  /** Is Player bot */
+  bot: boolean;
   /** Player moving speed in ms */
   speed: number;
   /** Player lives */
@@ -23,35 +23,3 @@ export interface IPlayer extends ITile {
   /** Player route */
   route;
 }
-
-export const PlayerStates = {
-  IDLE: "IDLE",
-  WALKING: "WALKING",
-  DEAD: "DEAD"
-};
-
-export const PlayerDirections = {
-  TOP: "walkingTop",
-  LEFT: "walkingLeft",
-  RIGHT: "walkingRight",
-  BOTTOM: "walkingBottom"
-};
-
-export const PlayerActions = {
-  ATTACKING: "ATTACKING",
-  GUARDING: "GUARDING"
-};
-
-export interface PlayerRoute {
-  player: IPlayer,
-  target: ITile
-}
-
-export const PlayerSprites = {
-  GRIM_REAPER: "../../assets/img/guard.png",
-  HERO: "../../assets/img/hero.png",
-  BOY: "../../assets/img/boy.png",
-  BLOOD: "../../assets/img/blood.png",
-  GRIM_REAPER_AVATAR: '../../assets/img/reaper.png',
-  FLAG: "../../assets/img/flag.png"
-};

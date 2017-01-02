@@ -1,5 +1,5 @@
 import {Index, Search, ITile, TileStyle} from "./tile.interface";
-import {Helper} from "../../service/grid.helper";
+import {Helper} from "../../helpers/helper";
 
 export class Tile implements ITile{
 

@@ -1,8 +1,5 @@
-import {Hero} from "../models/hero/hero.model";
-import {Tile} from "../models/tile/tile.model";
-import {Guard} from "../models/guard/guard.model";
-import {Player} from "../models/player/player.model";
-import {List} from "../algorithm/list.class";
+import {List} from "../helpers/list.class"
+import {Hero,Tile ,Guard, Player} from "../models"
 
 export interface GameState {
   grid: Tile[][];

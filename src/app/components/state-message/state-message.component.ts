@@ -1,5 +1,5 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import {GridService} from "../../service/grid.service";
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
+import {GameService} from "../../service/game.service"
 
 @Component({
   selector: 'state-message',
@@ -10,7 +10,7 @@ export class StateMessageComponent{
 
   @Input() state;
 
-  constructor(private grid: GridService) {
+  constructor(private game: GameService) {
   }
 
 }

@@ -2,7 +2,8 @@
 
 <div class="grid-container">
   <div class="grid" [style.height.px]="height" [style.width.px]="width">
-    <div *ngFor="let row of grid.grid">
+
+    <div *ngFor="let row of state.grid">
       <tile class="grid-tile" *ngFor="let tile of row"
             [index]="tile.index"
             [styles]="tile.styles"
@@ -10,6 +11,7 @@
             [sprite]="tile.sprite"
       ></tile>
     </div>
+
     <player *ngFor="let player of state.players"
             [index]="player.index"
             [styles]="player.styles"
@@ -21,7 +23,6 @@
             [blood]="player.blood"
             [color]="player.color"
             [route]="player.route"
-            (click)="grid.attack(player)"
     ></player>
 
   </div>

@@ -1,6 +1,7 @@
-import {Component, Input, ChangeDetectionStrategy, OnInit} from '@angular/core';
-import {GridService} from "../../service/grid.service";
-import {GameMode} from "../../store/game.reducer";
+import {Component, Input, ChangeDetectionStrategy, OnInit} from '@angular/core'
+import {GameService} from "../../service/game.service"
+import {GameMode} from "../../store/game.const"
+
 @Component({
   selector: 'modal',
   templateUrl: 'modal.component.html',
@@ -13,7 +14,7 @@ export class ModalComponent implements OnInit{
   icon: string;
   text: string;
 
-  constructor(private grid: GridService) {
+  constructor(private game: GameService) {
   }
 
   ngOnInit() {
@@ -27,7 +28,7 @@ export class ModalComponent implements OnInit{
         this.text = "You Won!";
         break;
       case GameMode.LOST:
-        this.icon = "fa fa-frown-o";
+        this.icon = "fa fa-meh-o";
         this.text = "You Lost!";
         break;
       case GameMode.TIME_UP:
@@ -38,8 +39,7 @@ export class ModalComponent implements OnInit{
         this.icon = "fa fa-pause";
         this.text = "Paused";
         break;
-      default:
-        break
+      default: break;
     }
   }
 

@@ -1,8 +1,7 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import {GridService} from "../../service/grid.service";
-import {PlayerStates} from "../../models";
-import {PlayerSprites} from "../../models/player/player.interface";
-import {Helper} from "../../service/grid.helper";
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
+import {GameService} from "../../service/game.service"
+import {Helper} from "../../helpers/helper"
+import {PlayerSprites, PlayerStates} from "../../store/game.const"
 
 @Component({
   selector: 'player',
@@ -25,17 +24,17 @@ export class PlayerComponent {
   bloodSprite;
   attackColor;
 
-  constructor(private grid: GridService) {
+  constructor(private game: GameService) {
     this.bloodSprite = Helper.prefixUrl(PlayerSprites.BLOOD);
     this.attackColor = 'rgba(255, 10, 10, 0.6)';
   }
 
   getStyles() {
     return Object.assign({}, this.styles, {
-      left: this.index.x * this.grid.tileSize + "px",
-      top: this.index.y * this.grid.tileSize + "px",
-      width: this.grid.tileSize + "px",
-      height: this.grid.tileSize + "px"
+      left: this.index.x * this.game.tileSize + "px",
+      top: this.index.y * this.game.tileSize + "px",
+      width: this.game.tileSize + "px",
+      height: this.game.tileSize + "px"
     });
   }
 
@@ -50,5 +49,4 @@ export class PlayerComponent {
         return direction;
     }
   }
-
 }

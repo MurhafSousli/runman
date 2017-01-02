@@ -1,6 +1,6 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import {GameState} from "../../store/game.state";
-import {GridService} from "../../service/grid.service";
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
+import {GameState} from "../../store/game.state"
+import {GameService} from "../../service/game.service"
 
 @Component({
   selector: 'grid',
@@ -12,7 +12,7 @@ export class GridComponent {
   @Input() width: number;
   @Input() state: GameState;
 
-  constructor(private grid: GridService) {
+  constructor(private game: GameService) {
 
   }
 }
