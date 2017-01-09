@@ -1,0 +1,186 @@
+[
+  {
+    "index": {
+      "x": 0,
+      "y": 2
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 3,
+      "y": 4
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 1,
+      "y": 5
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 5,
+      "y": 2
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 2,
+      "y": 5
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 6,
+      "y": 2
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 2,
+      "y": 4
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 4,
+      "y": 2
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 6,
+      "y": 7
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 5,
+      "y": 7
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 4,
+      "y": 7
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 7,
+      "y": 7
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 5,
+      "y": 1
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 6,
+      "y": 1
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 7,
+      "y": 1
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 0,
+      "y": 8
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 0,
+      "y": 9
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 5,
+      "y": 9
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 6,
+      "y": 9
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 7,
+      "y": 5
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 10,
+      "y": 5
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 9,
+      "y": 0
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  },
+  {
+    "index": {
+      "x": 2,
+      "y": 9
+    },
+    "sprite": "../../assets/img/tree.png",
+    "walkable": false
+  }
+]
