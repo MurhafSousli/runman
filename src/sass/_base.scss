@@ -14,6 +14,7 @@ app-root {
 }
 
 header {
+  display: flex;
   z-index: 999;
   width: 100%;
   background-color: $bg-dark;
@@ -21,12 +22,28 @@ header {
   font-size: .7em;
   text-align: center;
   color: white;
+  font-style: italic;
+  h1 {
+    flex: 1;
+  }
+  .header-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 55px;
+    font-size: 2em;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+  }
 }
 
 game {
   flex: 1;
   width: 100%;
   display: flex;
+  flex-direction: column;
 }
 
 game-container {
@@ -41,16 +58,20 @@ game-container {
   }
 }
 
-.sprite {
-  margin: auto;
-  position: absolute;
-  //left: 0;
-  //right: 0;
-  //top: 0;
-  //bottom: 0;
-  width: 100%;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-origin: border-box;
-  background-position-x: 50%;
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
+a {
+  transition: all 200ms linear;
+  color: $action-color;
+  &:hover {
+    color: $highlight-color;
+    text-shadow: 0 0 5px $highlight-color;
+  }
 }

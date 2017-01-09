@@ -1,6 +1,6 @@
 import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
 import {Index} from "../../models"
-import {GameService} from "../../service/game.service"
+import {GameSettings} from "../../store/game.const"
 
 @Component({
   selector: 'point',
@@ -12,5 +12,13 @@ export class PointComponent {
   @Input() index: Index;
   @Input() color: string;
 
-  constructor(private game: GameService) { }
+  getStyles() {
+    return {
+      left: `${this.index.x * GameSettings.TILE_SIZE}px`,
+      top: `${this.index.y * GameSettings.TILE_SIZE}px`,
+      width: `${GameSettings.TILE_SIZE}px`,
+      height: `${GameSettings.TILE_SIZE}px`
+    };
+  }
+
 }

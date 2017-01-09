@@ -1,8 +1,8 @@
-import {Index} from "../tile/tile.interface";
-import {Tile} from "../tile/tile.model";
-import {IPlayer} from './player.interface';
-import {Helper} from "../../helpers/helper";
-import {PlayerStates, PlayerActions} from "../../store/game.const";
+import {Index} from "../tile/tile.interface"
+import {Tile} from "../tile/tile.model"
+import {IPlayer} from './player.interface'
+import {GridHelper} from "../../helpers"
+import {PlayerStates} from "../../store/game.const"
 
 export class Player extends Tile implements IPlayer {
 
@@ -30,12 +30,12 @@ export class Player extends Tile implements IPlayer {
   constructor(index?: Index, sprite?: string, type?: string) {
 
     super(index, false);
-    this.sprite = Helper.prefixUrl(sprite);
+    this.sprite = GridHelper.prefixUrl(sprite);
     this.state = PlayerStates.IDLE;
     this.speed = 300;
     this.lives = [true];
     this.type += " player " + type;
-    this.color = 'rgba(249, 208, 82, .8)';
+    this.color = 'rgba(196, 193, 49, .8)';
     this.route = [];
     this.bot = true;
   }

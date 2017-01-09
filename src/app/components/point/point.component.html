@@ -1,5 +1,4 @@
-<div class="point"
-     [style.left.px]="index.x * game.tileSize"
-     [style.top.px]="index.y * game.tileSize"
-     [style.backgroundColor]="color">
+<div class="point-container" [ngStyle]="getStyles()">
+  <div class="point" [style.backgroundColor]="color">
+  </div>
 </div>

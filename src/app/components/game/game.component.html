@@ -1,2 +1,15 @@
-<game-container [state]="gameState | async"></game-container>
+<header>
+  <h1>Runman</h1>
+  <a class="header-btn" target="_blank" href="https://github.com/MurhafSousli/runman">
+    <i class="fa fa-code-fork" aria-hidden="true"></i>
+  </a>
+  <a class="header-btn" (click)="game.gameState('ABOUT')">
+    <i class="fa fa-info" aria-hidden="true"></i>
+  </a>
+</header>
 
+<game-container [state]="gameState"></game-container>
+
+<modal *ngIf="gameState.state === 'ABOUT'">
+  <about></about>
+</modal>

@@ -9,7 +9,8 @@ export const GameMode = {
   PAUSED: "PAUSED",
   WON: "WON",
   LOST: "LOST",
-  PLAYING: "PLAYING"
+  PLAYING: "PLAYING",
+  ABOUT: "ABOUT"
 };
 
 export const GameSettings = {
@@ -44,4 +45,13 @@ export const PlayerSprites = {
   BLOOD: "../../assets/img/blood.png",
   GRIM_REAPER_AVATAR: '../../assets/img/reaper.png',
   FLAG: "../../assets/img/flag.png"
+};
+
+export const AudioFiles = {
+  REMOVE: "../../assets/sounds/remove.ogg",
+  WIN: "../../assets/sounds/win.ogg",
+  ATTACK: "../../assets/sounds/attack.ogg",
+  GAME_OVER: "../../assets/sounds/game-over.ogg",
+  PAUSE: "../../assets/sounds/pause.ogg",
+  MUSIC: "../../assets/sounds/music.mp3"
 };

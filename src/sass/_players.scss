@@ -1,7 +1,10 @@
-.player .sprite {
-  max-height: 96%;
-  width: 100%;
-  background-position-x: 0;
+.player {
+  z-index: 10;
+  .sprite {
+    max-height: 96%;
+    width: 100%;
+    background-position-x: 0;
+  }
 }
 
 .idle {
@@ -12,10 +15,16 @@
   display: none;
 }
 
-.point {
+.point-container {
+  z-index: 0;
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.point {
   width: 5px;
   height: 5px;
-  margin: 25px 0 0 25px;
   border-radius: 50%;
 }

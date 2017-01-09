@@ -1,0 +1,16 @@
+<div class="panel-header">
+  <i [class]="icon" aria-hidden="true"></i>
+</div>
+<div class="panel-body" style="text-align: center">
+  <p>{{text}}</p>
+  <p *ngIf="state !== 'PAUSED'">Your score: {{score}}</p>
+</div>
+<div class="panel-footer">
+  <div class="btn-container">
+  <div class="btn" (click)="game.newGame(12, 10, 50)">
+    <i class="fa fa-repeat" aria-hidden="true"></i> Try Again</div>
+
+    <div *ngIf="state === 'PAUSED'" class="btn" (click)="game.resumeGame()">
+    <i class="fa fa-play" aria-hidden="true"></i> Resume</div>
+  </div>
+</div>

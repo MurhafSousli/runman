@@ -3,7 +3,7 @@ import {Player, Tile} from "../models";
 import {PathFinder} from "../algorithm/pathfinder";
 import {PlayerDirections} from "../store/game.const";
 
-export module Helper {
+export module GridHelper {
 
   /** Prefix base url for GitHub pages */
   export const prefixUrl = (link) => {
@@ -45,13 +45,6 @@ export module Helper {
     return tiles.filter(tile => tile.walkable)[Math.floor(Math.random() * tiles.length)];
   };
 
-  /** Get player direction towards the target */
-  export const getPlayerDirection = (player: Player, target: Tile) => {
-    return (target.index.x === player.index.x) ?
-      (target.index.y > player.index.y) ? PlayerDirections.BOTTOM : PlayerDirections.TOP
-      : (target.index.x > player.index.x) ? PlayerDirections.RIGHT : PlayerDirections.LEFT;
-  };
-
   /** Search for players in a range */
   export const scan = (game: GameService, guard: Player, players: Player[], range?: number) => {
 
@@ -66,7 +59,7 @@ export module Helper {
         /** Search for players except the guard himself */
         players.filter(player => player !== guard).map((player) => {
 
-          if (hasSameIndex(game.grid[i][j], player)) {
+          if (compareIndex(game.grid[i][j], player)) {
 
             /** If player detected */
             let start = game.grid[guard.index.x][guard.index.y];
@@ -75,7 +68,7 @@ export module Helper {
             target.walkable = true;
 
             let route = PathFinder.searchPath(game, start, target);
-            if (route.length) routes.push({route: route, target: player});
+            if (route && route.length) routes.push({route: route, target: player});
 
             start.walkable = false;
             target.walkable = false;
@@ -92,7 +85,7 @@ export module Helper {
   };
 
   /** Check if two tiles has the same index */
-  export const hasSameIndex = (src: Tile, target: Tile) => {
+  export const compareIndex = (src: Tile, target: Tile) => {
     return JSON.stringify(src.index) === JSON.stringify(target.index);
   };
 

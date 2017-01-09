@@ -18,6 +18,8 @@ import {GameService} from './service/game.service'
 import {StoreModule} from "@ngrx/store"
 import {gameReducer} from "./store/game.reducer"
 import {AudioService} from "./audio/audio.service";
+import { AboutComponent } from './components/about/about.component';
+import { ResultComponent } from './components/result/result.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import {AudioService} from "./audio/audio.service";
     ModalComponent,
     StateMessageComponent,
     PointComponent,
-    GameContainerComponent
+    GameContainerComponent,
+    AboutComponent,
+    ResultComponent
   ],
   imports: [
     BrowserModule,

@@ -7,7 +7,7 @@ import {Store} from "@ngrx/store"
 
 import {GameState} from "../store/game.state";
 import {AudioService} from "../audio/audio.service"
-import {Helper} from "../helpers/helper"
+import {GridHelper, PlayerHelper} from "../helpers"
 import {List} from "../helpers/list.class"
 import {IGame} from "./game.interface"
 import {PathFinder} from "../algorithm/pathfinder"
@@ -18,8 +18,7 @@ import {
   GameSettings,
   PlayerSprites,
   PlayerStates,
-  PlayerActions,
-  PlayerDirections
+  PlayerActions
 } from "../store/game.const"
 
 @Injectable()
@@ -53,13 +52,16 @@ export class GameService implements IGame {
   /** For attacking actions */
   attacking$: Subject<any>;
 
-  constructor(private store: Store<GameState>, private http: Http, private audio: AudioService) {
-    /** Pauser should be initialized here */
-    this.pauser$ = new BehaviorSubject(false);
+  constructor(private store: Store<GameState>, private http: Http, public audio: AudioService) {
+    /** Pauser should be initialized in the constructor  */
   }
 
   newGame(x: number, y: number) {
+    /** Initialize Pauser/close modal if open */
+    this.pauser$ = new BehaviorSubject(false);
+    /** Unsubscribe from all streams */
     if (this.gameOver$) this.gameOver$.next(true);
+    this.audio.music.play();
     /** Prepare the grid, initialize all variables */
     this.grid = [];
     this.width = x;
@@ -83,10 +85,12 @@ export class GameService implements IGame {
   }
 
   pauseGame() {
+    this.audio.pause.play();
     this.gameState(GameMode.PAUSED);
   }
 
   resumeGame() {
+    this.audio.music.play();
     this.gameState(GameMode.PLAYING);
   }
 
@@ -96,13 +100,13 @@ export class GameService implements IGame {
   }
 
   addBot() {
-    let target = Helper.getRandomTarget(this, this.hero, 2);
+    let target = GridHelper.getRandomTarget(this, this.hero, 2);
     let player = new Player(target.index, PlayerSprites.BOY, 'hero');
-    this.addPlayer(player);
+    PlayerHelper.addPlayer(this, player);
   }
 
   private loadMap() {
-    return this.http.get(Helper.prefixUrl('../../assets/map/map.json'))
+    return this.http.get(GridHelper.prefixUrl('../../assets/map/map.json'))
       .map(res => res.json())
       .do((res) => {
           res.map((t: Tile) => {
@@ -115,15 +119,15 @@ export class GameService implements IGame {
           /** Set goal */
           this.goal = this.grid[0][0];
           this.goal.type += " flag";
-          this.goal.sprite = Helper.prefixUrl(PlayerSprites.FLAG);
+          this.goal.sprite = GridHelper.prefixUrl(PlayerSprites.FLAG);
 
           /** Add hero */
-          this.hero = new Hero({x: this.width - 1, y: this.height - 1});
-          this.addPlayer(this.hero);
+          this.hero = new Hero({x: 1, y: 9});
+          PlayerHelper.addPlayer(this, this.hero);
 
           /** Add guard */
           this.guard = new Guard({x: 0, y: 0});
-          this.addPlayer(this.guard);
+          PlayerHelper.addPlayer(this, this.guard);
 
           /** Start timer */
           this.pauser$.switchMap(paused => paused ? Observable.never() : this.timerStream(this.time))
@@ -152,7 +156,7 @@ export class GameService implements IGame {
   /** Move player one step */
   private moveStep(player: Player, target: Tile) {
     /** Set the player current tile to walkable and next tile to un-walkable */
-    player.direction = Helper.getPlayerDirection(player, target);
+    PlayerHelper.setPlayerDirection(player, target);
     this.grid[player.index.x][player.index.y].walkable = true;
     target.walkable = false;
     player.index = target.index;
@@ -161,7 +165,7 @@ export class GameService implements IGame {
   }
 
   /** Stream player's steps to target */
-  private moveStream(player: Player) {
+  moveStream(player: Player) {
     /** Stream recent route */
     return this.players$[player.routingIndex].switchMap((target) => {
       return Observable
@@ -171,46 +175,44 @@ export class GameService implements IGame {
         .do((nextTile) => {
             if (player === this.hero) {
               this.score += 50;
-              if (Helper.hasSameIndex(nextTile, this.goal)) this.gameState(GameMode.WON);
+              if (GridHelper.compareIndex(nextTile, this.goal)) this.gameState(GameMode.WON);
             }
             /** If target became un-walkable get a new route */
-            if (!nextTile.walkable) {
-              this.routing$.next({player: player, target: nextTile});
-              return;
-            }
+            if (!nextTile.walkable) this.routing$.next({player: player, target: nextTile});
             /** Otherwise move to the next tile */
-            this.moveStep(player, nextTile);
+            else this.moveStep(player, nextTile);
           },
           (err) => {
             console.warn(err);
           },
           () => {
-            setTimeout(() => {
-              /** If guard is attacking target */
-              if (target && player === this.guard && !player.route.length) {
-                let route = Helper.scan(this, this.guard, this.players, 1);
-                if (route.length) this.attacking$.next({attacker: player, victim: route[0].target});
-              }
-              /** Set player state to idle after he reaches the target */
-              else player.state = PlayerStates.IDLE;
+            Observable.of(null)
+              .delay(player.speed)
+              .do(() => {
+                /** If guard is attacking target */
+                if (target && player === this.guard && !player.route.length) {
+                  let route = GridHelper.scan(this, this.guard, this.players, 1);
+                  if (route.length) this.attacking$.next({attacker: player, victim: route[0].target});
+                }
+                /** Set player state to idle after he reaches the target */
+                else player.state = PlayerStates.IDLE;
 
-              this.updateStore();
-            }, player.speed);
+                this.updateStore();
+              }).subscribe();
           });
     });
   }
 
   /** Move a player randomly in specific range */
-  private pilotStream(player: Player) {
+  pilotStream(player: Player) {
     return Observable
-      .timer(0, Helper.getRandomBetween(1200, 2500))
+      .timer(0, GridHelper.getRandomBetween(1200, 2500))
       .do(() => {
         if (player.action === PlayerActions.ATTACKING) return;
-        let target = Helper.getRandomTarget(this, player, 3);
-        if (this.players.contains(player))
+        let target = GridHelper.getRandomTarget(this, player, 3);
+        if (this.players$[player.routingIndex])
           this.routing$.next({player: player, target: target});
       })
-      .repeat()
       .takeWhile(() => this.players.contains(player));
   }
 
@@ -223,12 +225,13 @@ export class GameService implements IGame {
 
         let nextRoute = PathFinder.searchPath(this, start, res.target);
         /** if there is no route set player's tile to un-walkable */
-        if (!nextRoute.length) {
-          start.walkable = false;
-          return;
+        if (nextRoute && nextRoute.length) {
+          res.player.route = nextRoute;
+          this.players$[res.player.routingIndex].next();
         }
-        res.player.route = nextRoute;
-        this.players$[res.player.routingIndex].next();
+        else {
+          start.walkable = false;
+        }
       },
       (err) => {
         console.warn(err)
@@ -242,15 +245,17 @@ export class GameService implements IGame {
       .timer(0, GameSettings.SCAN_INTERVAL)
       .do(() => {
 
-        let routes = Helper.scan(this, player, this.players, 5);
+        let routes = GridHelper.scan(this, player, this.players, 5);
         if (routes.length) {
           player.action = PlayerActions.ATTACKING;
           /** Get the closest target */
           let res = routes.reduce((prev, next) => prev.route.length > next.route.length ? next : prev);
-          /** Remove the target tile from next route */
-          res.route.shift();
-          player.route = res.route;
-          this.players$[player.routingIndex].next(res.target);
+          if (res.route) {
+            /** Remove the target tile from next route */
+            res.route.shift();
+            player.route = res.route;
+            this.players$[player.routingIndex].next(res.target);
+          }
         }
         else
           player.action = PlayerActions.GUARDING;
@@ -280,25 +285,7 @@ export class GameService implements IGame {
       /** Change attacker direction towards the victim */
       let attacker = res.attacker;
       let victim = res.victim;
-      attacker.direction = Helper.getPlayerDirection(attacker, victim);
-      let transform;
-      switch (attacker.direction) {
-        case PlayerDirections.TOP:
-          transform = `translate(0, -${this.tileSize / 2}px)`;
-          break;
-        case PlayerDirections.BOTTOM:
-          transform = `translate(0, ${this.tileSize / 2}px)`;
-          break;
-        case PlayerDirections.LEFT:
-          transform = `translate(-${this.tileSize / 2}px, 0)`;
-          break;
-        case PlayerDirections.RIGHT:
-          transform = `translate(${this.tileSize / 2}px, 0)`;
-          break;
-        default:
-          transform = 'translate(0, 0)';
-      }
-      attacker.styles = Object.assign({}, attacker.styles, {transform: transform});
+      PlayerHelper.attackEffect(this, attacker, victim);
 
       return Observable.of(null)
         .delay(attacker.speed)
@@ -307,50 +294,74 @@ export class GameService implements IGame {
           attacker.state = PlayerStates.IDLE;
           /** Add blood effect & remove after 1 second */
           victim.blood = true;
-          setTimeout(() => victim.blood = false, 1000);
 
           /** remove one life from victim & remove him if he has no more lives */
           if (victim.lives.length) {
             victim.lives.pop();
-            if (!victim.lives.length) setTimeout(this.removePlayer(victim), 1000);
+            if (!victim.lives.length) PlayerHelper.removePlayer(this, victim);
           }
           this.updateStore();
         });
     });
   }
 
-  private addPlayer(player: Player) {
-
-    this.grid[player.index.x][player.index.y].walkable = false;
-    this.players.push(player);
-    player.routingIndex = this.players$.push(new Subject<Tile[]>()) - 1;
-
-    this.pauser$.switchMap(paused => paused ? Observable.never() : this.moveStream(player))
-      .takeUntil(this.gameOver$).subscribe();
-
-    if (player.bot)
-      this.pauser$.switchMap(paused => paused ? Observable.never() : this.pilotStream(player))
-        .takeUntil(this.gameOver$).subscribe();
-  }
-
-  private removePlayer(player: Player) {
-    /** Remove & Unsubscribe automatically */
-    this.audio.dead();
-
-    this.players$.remove(this.players$[player.routingIndex]);
-    this.grid[player.index.x][player.index.y].walkable = true;
-    this.players.remove(player);
-
-    if (player === this.hero) this.gameState(GameMode.LOST);
-  }
-
-  private gameState(mode) {
-    this.pauser$.next(mode !== GameMode.PLAYING);
+  gameState(mode) {
     this.store.dispatch({
       type: GameStore.GAME_STATE,
       payload: mode
     });
-    if (mode !== GameMode.PAUSED && mode !== GameMode.PLAYING) this.gameOver$.next();
+
+    let pause = () => {
+      this.pauser$.next(true);
+      this.audio.music.pause();
+    };
+
+    let gameOver = () => {
+      this.gameOver$.next();
+      this.audio.gameOver.play();
+    };
+
+    switch (mode) {
+      case GameMode.PAUSED:
+        pause();
+        break;
+      case GameMode.ABOUT:
+        pause();
+        break;
+      case GameMode.WON:
+        pause();
+        this.gameOver$.next();
+        this.audio.win.play();
+        break;
+      case GameMode.LOST:
+        pause();
+        gameOver();
+        break;
+      case GameMode.TIME_UP:
+        pause();
+        gameOver();
+        break;
+      default:
+        this.pauser$.next(false);
+        break;
+    }
+
+    // /** Pause the game on about modal */
+    // if (mode === GameMode.ABOUT) {
+    //   this.pauser$.next(true);
+    //   return;
+    // }
+    //
+    //
+    // let isPlaying = (mode === GameMode.PLAYING);
+    // this.pauser$.next(!isPlaying);
+    //
+    // if (isPlaying) return;
+    // if (mode !== GameMode.PAUSED) {
+    //   this.gameOver$.next();
+    //   (mode === GameMode.TIME_UP || mode === GameMode.LOST) ? this.audio.gameOver.play() : this.audio.win.play();
+    // }
+    // this.audio.music.pause();
   }
 
   private updateStore() {

@@ -1,25 +1,33 @@
 import {Injectable} from '@angular/core';
-import {Helper} from "../helpers/helper";
+import {GridHelper} from "../helpers";
+import {AudioFiles} from "../store/game.const";
 
 @Injectable()
 export class AudioService {
 
-  removePlayerSound;
+  remove;
+  attack;
+  win;
+  gameOver;
+  pause;
+  music;
 
   constructor() {
-    this.removePlayerSound = new Audio();
-    this.removePlayerSound.src = Helper.prefixUrl(AudioFiles.KILLED);
-    this.removePlayerSound.load();
+    this.remove = this.loadSound(AudioFiles.REMOVE);
+    this.attack = this.loadSound(AudioFiles.ATTACK);
+    this.win = this.loadSound(AudioFiles.WIN);
+    this.gameOver = this.loadSound(AudioFiles.GAME_OVER);
+    this.pause = this.loadSound(AudioFiles.PAUSE);
+    this.music = this.loadSound(AudioFiles.MUSIC);
+    this.music.loop = true;
   }
 
-  dead() {
-    this.removePlayerSound.play();
+  private loadSound(src: string){
+    let audio = new Audio();
+    audio.src = GridHelper.prefixUrl(src);
+    audio.load();
+    return audio;
   }
 
 }
 
-const AudioFiles = {
-  KILLED: "../../assets/sounds/dead.ogg",
-  WON: "",
-  TIME_UP: ""
-};

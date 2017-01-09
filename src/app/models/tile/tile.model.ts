@@ -1,5 +1,5 @@
 import {Index, Search, ITile, TileStyle} from "./tile.interface";
-import {Helper} from "../../helpers/helper";
+import {GridHelper} from "../../helpers";
 
 export class Tile implements ITile{
 
@@ -25,7 +25,7 @@ export class Tile implements ITile{
     };
     this.index = index || {x: -1, y: -1};
     this.walkable = walkable || false;
-    this.sprite = sprite ? Helper.prefixUrl(sprite) : undefined;
+    this.sprite = sprite ? GridHelper.prefixUrl(sprite) : undefined;
     this.styles = {};
     this.type = 'tile';
   }

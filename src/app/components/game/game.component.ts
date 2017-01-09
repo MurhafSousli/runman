@@ -1,22 +1,16 @@
-import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core'
-import {Observable} from "rxjs/Observable"
-import {Store} from "@ngrx/store"
-import {GameState} from "../../store/game.state"
+import {Component, ChangeDetectionStrategy, Input} from '@angular/core'
+import {GameService} from "../../service/game.service"
 
 @Component({
   selector: 'game',
   templateUrl: 'game.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GameComponent implements OnInit {
+export class GameComponent {
 
-  gameState: Observable<GameState>;
+  @Input('state') gameState;
 
-  constructor(private store: Store<GameState>) {
-  }
-
-  ngOnInit() {
-    this.gameState = this.store.select<GameState>('gameState');
+  constructor(private game: GameService) {
   }
 
 }

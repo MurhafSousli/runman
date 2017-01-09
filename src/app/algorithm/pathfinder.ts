@@ -1,14 +1,14 @@
 import {Tile} from "../models";
 import {List} from "../helpers/list.class";
 import {GameService} from "../service/game.service";
-import {Helper} from "../helpers/helper";
+import {GridHelper} from "../helpers/grid.helper";
 
 export module PathFinder {
 
   export function searchPath(game: GameService, start: Tile, end: Tile): Tile[] {
-
+    let debugStartTime = performance.now();
     /** Path validation */
-    if (Helper.hasSameIndex(start, end)) {
+    if (GridHelper.compareIndex(start, end)) {
       console.log("the start tile = the end.");
       return [];
     }
@@ -36,7 +36,9 @@ export module PathFinder {
       currentTile = getTileWithLowestTotal(openList);
 
       //if the currentTile is the endTile, then we can stop searching
-      if (Helper.hasSameIndex(currentTile, end)) {
+      if (GridHelper.compareIndex(currentTile, end)) {
+        let debugEndTime = performance.now();
+        console.log(`Path found in ${(debugEndTime - debugStartTime).toFixed(3)}ms`);
         return shortestPath(game, start, end, openList, closedList);
       }
       else {
@@ -67,7 +69,7 @@ export module PathFinder {
         }
       }
     }
-  };
+  }
 
   const getTileWithLowestTotal = (openList: Tile[]): Tile => {
 
@@ -142,7 +144,7 @@ export module PathFinder {
       //check to see what newest current tile.
       for (let adjacentTile of adjacentTiles) {
         //check if it is the start tile
-        if (Helper.hasSameIndex(adjacentTile, startTile)) return pathTiles;
+        if (GridHelper.compareIndex(adjacentTile, startTile)) return pathTiles;
 
         //It has to be inside the closedList or openList
         if (closedList.contains(adjacentTile) || openList.contains(adjacentTile)) {
