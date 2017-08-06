@@ -1,29 +1,29 @@
-<state-info [state]="state"></state-info>
+<app-state-info [state]="state"></app-state-info>
 
 <div class="grid-container">
   <div class="grid" [style.height.px]="height" [style.width.px]="width">
 
     <div *ngFor="let row of state.grid">
-      <tile class="grid-tile" *ngFor="let tile of row"
-            [index]="tile.index"
-            [styles]="tile.styles"
-            [type]="tile.type"
-            [sprite]="tile.sprite"
-      ></tile>
+      <app-tile class="grid-tile" *ngFor="let tile of row"
+                [index]="tile.index"
+                [styles]="tile.styles"
+                [type]="tile.type"
+                [sprite]="tile.sprite"
+      ></app-tile>
     </div>
 
-    <player *ngFor="let player of state.players"
-            [index]="player.index"
-            [styles]="player.styles"
-            [type]="player.type"
-            [sprite]="player.sprite"
-            [state]="player.state"
-            [action]="player.action"
-            [direction]="player.direction"
-            [blood]="player.blood"
-            [color]="player.color"
-            [route]="player.route"
-    ></player>
+    <app-player *ngFor="let player of state.players"
+                [index]="player.index"
+                [styles]="player.styles"
+                [type]="player.type"
+                [sprite]="player.sprite"
+                [state]="player.state"
+                [action]="player.action"
+                [direction]="player.direction"
+                [blood]="player.blood"
+                [color]="player.color"
+                [route]="player.route"
+    ></app-player>
 
   </div>
 </div>

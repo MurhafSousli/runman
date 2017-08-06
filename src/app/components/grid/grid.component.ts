@@ -1,9 +1,9 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
-import {GameState} from "../../store/game.state"
-import {GameService} from "../../service/game.service"
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { GameState } from '../../store/game.state';
+import { GameService } from '../../service/game.service';
 
 @Component({
-  selector: 'grid',
+  selector: 'app-grid',
   templateUrl: './grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -12,7 +12,10 @@ export class GridComponent {
   @Input() width: number;
   @Input() state: GameState;
 
-  constructor(private game: GameService) {
+  constructor(private _game: GameService) {
+  }
 
+  public get game(): GameService {
+    return this._game;
   }
 }

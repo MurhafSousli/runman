@@ -1,10 +1,10 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core'
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'modal',
+  selector: 'app-modal',
   templateUrl: 'modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ModalComponent{
+export class ModalComponent {
 
 }

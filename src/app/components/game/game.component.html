@@ -8,8 +8,8 @@
   </a>
 </header>
 
-<game-container [state]="gameState"></game-container>
+<app-game-container [state]="gameState"></app-game-container>
 
-<modal *ngIf="gameState.state === 'ABOUT'">
-  <about></about>
-</modal>
+<app-modal *ngIf="gameState.state === 'ABOUT'">
+  <app-about></app-about>
+</app-modal>

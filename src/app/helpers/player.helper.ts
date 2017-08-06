@@ -1,9 +1,9 @@
-import {Player} from "../models/player/player.model";
-import {GameService} from "../service/game.service";
-import {Subject} from "rxjs/Subject";
-import {Observable} from "rxjs/Observable";
-import {Tile} from "../models";
-import {GameMode, PlayerDirections, GameSettings} from "../store/game.const";
+import { Player } from '../models/player/player.model';
+import { GameService } from '../service/game.service';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { Tile } from '../models';
+import { GameMode, GameSettings, PlayerDirections } from '../store/game.const';
 
 export module PlayerHelper {
 
@@ -16,9 +16,10 @@ export module PlayerHelper {
     game.pauser$.switchMap(paused => paused ? Observable.never() : game.moveStream(player))
       .takeUntil(game.gameOver$).subscribe();
 
-    if (player.bot)
+    if (player.bot) {
       game.pauser$.switchMap(paused => paused ? Observable.never() : game.pilotStream(player))
         .takeUntil(game.gameOver$).subscribe();
+    }
   };
 
   export const removePlayer = (game: GameService, player: Player) => {
@@ -29,7 +30,9 @@ export module PlayerHelper {
     game.grid[player.index.x][player.index.y].walkable = true;
     game.players.remove(player);
 
-    if (player === game.hero) game.gameState(GameMode.LOST);
+    if (player === game.hero) {
+      game.gameState(GameMode.LOST);
+    }
   };
 
   /** Get player direction towards the target */
@@ -63,6 +66,6 @@ export module PlayerHelper {
     }
     attacker.styles = Object.assign({}, attacker.styles, { transform: transform });
     game.audio.attack.play();
-  }
+  };
 
 }

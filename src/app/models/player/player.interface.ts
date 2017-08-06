@@ -1,4 +1,4 @@
-import {ITile} from "../tile/tile.interface";
+import { ITile } from '../tile/tile.interface';
 
 export interface IPlayer extends ITile {
 

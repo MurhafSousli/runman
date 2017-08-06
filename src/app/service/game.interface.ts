@@ -1,5 +1,5 @@
-import {Player, Guard, Hero, Tile} from "../models";
-import {List} from "../helpers/list.class";
+import { Guard, Hero, Player, Tile } from '../models';
+import { List } from '../helpers/list.class';
 
 export interface IGame {
 

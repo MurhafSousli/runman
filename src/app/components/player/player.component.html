@@ -3,7 +3,7 @@
   <div class="blood" *ngIf="blood" [style.backgroundImage]="'url(' + bloodSprite + ')'"></div>
 </div>
 
-<point *ngFor="let point of route"
-       [index]="point.index"
-       [color]="action === 'ATTACKING' ? attackColor : color"
-></point>
+<app-point *ngFor="let point of route"
+           [index]="point.index"
+           [color]="action === 'ATTACKING' ? attackColor : color">
+</app-point>
