@@ -1,10 +1,10 @@
-import {Component, AfterViewInit, ChangeDetectionStrategy, Input} from '@angular/core'
-import {Observable} from "rxjs/Observable"
-import {GameState} from "../../store/game.state"
-import {GameService} from "../../service/game.service"
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { GameState } from '../../store/game.state';
+import { GameService } from '../../service/game.service';
 
 @Component({
-  selector: 'game-container',
+  selector: 'app-game-container',
   templateUrl: 'game-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -14,7 +14,7 @@ export class GameContainerComponent implements AfterViewInit {
   height;
   width;
 
-  constructor(private game: GameService) {
+  constructor(private _game: GameService) {
   }
 
   ngAfterViewInit() {
@@ -45,5 +45,9 @@ export class GameContainerComponent implements AfterViewInit {
     this.height = 10;
     this.width = 12;
     this.game.newGame(this.width, this.height);
+  }
+
+  public get game(): GameService {
+    return this._game;
   }
 }

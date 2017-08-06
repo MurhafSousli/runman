@@ -1,6 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {Store} from "@ngrx/store";
-import {GameState} from "./store/game.state";
+import { Component, OnInit } from '@angular/core';
+
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
+import { GameState } from './store/game.state';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +11,7 @@ import {GameState} from "./store/game.state";
 })
 export class AppComponent implements OnInit {
 
-  gameState;
+  public gameState: Observable<GameState>;
 
   constructor(private store: Store<GameState>) {
   }
@@ -16,5 +19,4 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.gameState = this.store.select<GameState>('gameState');
   }
-
 }

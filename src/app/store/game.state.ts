@@ -1,5 +1,5 @@
-import {List} from "../helpers/list.class"
-import {Hero,Tile ,Guard, Player} from "../models"
+import { List } from '../helpers/list.class';
+import { Guard, Hero, Player, Tile } from '../models';
 
 export interface GameState {
   grid: Tile[][];

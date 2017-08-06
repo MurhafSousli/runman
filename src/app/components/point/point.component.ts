@@ -1,9 +1,9 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
-import {Index} from "../../models"
-import {GameSettings} from "../../store/game.const"
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Index } from '../../models';
+import { GameSettings } from '../../store/game.const';
 
 @Component({
-  selector: 'point',
+  selector: 'app-point',
   templateUrl: './point.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -20,5 +20,4 @@ export class PointComponent {
       height: `${GameSettings.TILE_SIZE}px`
     };
   }
-
 }

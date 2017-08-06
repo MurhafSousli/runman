@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {GridHelper} from "../helpers";
-import {AudioFiles} from "../store/game.const";
+import { Injectable } from '@angular/core';
+import { GridHelper } from '../helpers';
+import { AudioFiles } from '../store/game.const';
 
 @Injectable()
 export class AudioService {
@@ -22,8 +22,8 @@ export class AudioService {
     this.music.loop = true;
   }
 
-  private loadSound(src: string){
-    let audio = new Audio();
+  private loadSound(src: string) {
+    const audio = new Audio();
     audio.src = GridHelper.prefixUrl(src);
     audio.load();
     return audio;

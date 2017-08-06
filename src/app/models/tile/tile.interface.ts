@@ -1,4 +1,4 @@
-export interface ITile{
+export interface ITile {
 
   /** Coordinates on the grid */
   index: Index;
@@ -11,7 +11,7 @@ export interface ITile{
   /** Sprite src */
   sprite: string;
   /** Tile type */
-  type: string
+  type: string;
 }
 
 export interface Index {

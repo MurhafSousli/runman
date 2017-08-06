@@ -1,7 +1,7 @@
-import {Player} from "../player/player.model"
-import {Index} from "../tile/tile.interface"
-import {GridHelper} from "../../helpers"
-import {PlayerSprites} from "../../store/game.const"
+import { Player } from '../player/player.model';
+import { Index } from '../tile/tile.interface';
+import { GridHelper } from '../../helpers';
+import { PlayerSprites } from '../../store/game.const';
 
 export class Guard extends Player {
 

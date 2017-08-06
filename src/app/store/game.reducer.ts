@@ -1,6 +1,6 @@
-import {Action, ActionReducer} from '@ngrx/store'
-import {GameMode, GameStore} from "./game.const"
-import {GameState} from "./game.state";
+import { Action } from '@ngrx/store';
+import { GameMode, GameStore } from './game.const';
+import { GameState } from './game.state';
 
 const INITIAL_STATE: GameState = {
   grid: undefined,
@@ -12,7 +12,7 @@ const INITIAL_STATE: GameState = {
   state: GameMode.PLAYING
 };
 
-export const gameReducer: ActionReducer<GameState> = (state: GameState = INITIAL_STATE, action: Action) => {
+export function gameReducer(state: GameState = INITIAL_STATE, action: Action): GameState {
   switch (action.type) {
 
     case GameStore.GAME_STATE:
@@ -27,4 +27,4 @@ export const gameReducer: ActionReducer<GameState> = (state: GameState = INITIAL
     default:
       return Object.assign({}, state, action.payload);
   }
-};
+}

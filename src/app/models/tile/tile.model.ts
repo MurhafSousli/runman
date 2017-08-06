@@ -1,7 +1,7 @@
-import {Index, Search, ITile, TileStyle} from "./tile.interface";
-import {GridHelper} from "../../helpers";
+import { Index, ITile, Search, TileStyle } from './tile.interface';
+import { GridHelper } from '../../helpers';
 
-export class Tile implements ITile{
+export class Tile implements ITile {
 
   /** Coordinates on the grid */
   index: Index;
@@ -16,7 +16,7 @@ export class Tile implements ITile{
   /** Tile type */
   type: string;
 
-  constructor(index?: Index, walkable?: boolean, sprite?:string) {
+  constructor(index?: Index, walkable?: boolean, sprite?: string) {
 
     this.search = {
       cost: 0,

@@ -1,10 +1,10 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core'
-import {GameService} from "../../service/game.service"
-import {GridHelper} from "../../helpers/grid.helper"
-import {PlayerSprites, PlayerStates} from "../../store/game.const"
+import { Component, Input } from '@angular/core';
+import { GameService } from '../../service/game.service';
+import { GridHelper } from '../../helpers/grid.helper';
+import { PlayerSprites, PlayerStates } from '../../store/game.const';
 
 @Component({
-  selector: 'player',
+  selector: 'app-player',
   templateUrl: 'player.component.html',
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -31,15 +31,15 @@ export class PlayerComponent {
 
   getStyles() {
     return Object.assign({}, this.styles, {
-      left: this.index.x * this.game.tileSize + "px",
-      top: this.index.y * this.game.tileSize + "px",
-      width: this.game.tileSize + "px",
-      height: this.game.tileSize + "px"
+      left: this.index.x * this.game.tileSize + 'px',
+      top: this.index.y * this.game.tileSize + 'px',
+      width: this.game.tileSize + 'px',
+      height: this.game.tileSize + 'px'
     });
   }
 
   getClasses() {
-    let direction = this.direction || '';
+    const direction = this.direction || '';
     switch (this.state) {
       case PlayerStates.IDLE:
         return direction + ' idle';

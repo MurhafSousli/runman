@@ -1,14 +1,17 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {GameService} from "../../service/game.service";
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { GameService } from '../../service/game.service';
 
 @Component({
-  selector: 'about',
+  selector: 'app-about',
   templateUrl: 'about.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AboutComponent{
+export class AboutComponent {
 
-  constructor(private game :GameService){
+  constructor(private _game: GameService) {
+  }
 
+  public get game(): GameService {
+    return this._game;
   }
 }
