@@ -1,0 +1,12 @@
+.flag .sprite {
+  animation: flag 1s steps(10) infinite;
+}
+
+@keyframes flag {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 -500px;
+  }
+}

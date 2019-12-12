@@ -1,0 +1,44 @@
+//.game-guard {
+//  background-image: url('../../../../assets/img/guard.png');
+//}
+//
+//.game-hero {
+//  background-image: url('../../../../assets/img/hero.png');
+//}
+//
+//.game-player {
+//  background-image: url('../../../../assets/img/boy.png');
+//}
+//
+//.game-blood-effect {
+//  background-image: url('../../../../assets/img/blood.png');
+//}
+
+.player {
+  z-index: 9999;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sprite {
+  max-height: 96%;
+  width: 100%;
+  height: 100%;
+  background-position-x: 0;
+}
+
+.idle {
+  animation: none !important;
+}
+
+.dead {
+  display: none;
+}
+
+.point {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}

@@ -1,11 +1,27 @@
-@import "~normalize.css";
-@import "~animate.css/animate.min.css";
-@import "~font-awesome/css/font-awesome.min.css";
-@import "sass/variables";
-@import "sass/base";
-@import "sass/modal";
-@import "sass/grid";
-@import "sass/players";
-@import "sass/sprites/sprites";
-@import "sass/state-message";
-@import "sass/state-info";
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+//a {
+//  transition: all 200ms linear;
+//  color: $action-color;
+//  &:hover {
+//    color: $highlight-color;
+//    text-shadow: 0 0 5px $highlight-color;
+//  }
+//}
+
+.sprite {
+  margin: auto;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-origin: border-box;
+  background-position-x: 50%;
+}
