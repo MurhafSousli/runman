@@ -1,0 +1,61 @@
+//.game-flag {
+//  background-image: url('../../../../assets/img/flag.png');
+//}
+
+.tile {
+  position: absolute;
+  background-color: rgba(0, 168, 60, 0.27);
+  box-shadow: 0 0 1px black;
+}
+
+.tile.test {
+  background-color: forestgreen;
+}
+
+.debug {
+  position: absolute;
+  bottom: 0;
+  right: 1px;
+  font-weight: 300;
+  font-family: monospace, serif;
+  font-size: 10px;
+}
+
+.debug-f {
+  color: purple;
+}
+
+.debug-g {
+  color: red;
+}
+
+.debug-h {
+  color: blue;
+}
+
+.debug-index {
+  font-size: 10px;
+  color: black;
+  position: absolute;
+  top: 0;
+  left: 1px;
+}
+
+.debug-effect {
+  z-index: 0;
+  pointer-events: none;
+  height: 100%;
+  width: 100%;
+
+  &[openlist="true"] {
+    background-color: #ff455c;
+  }
+
+  &[closedlist="true"] {
+    background-color: #28ff84;
+  }
+
+  &[pathlist="true"] {
+    background-color: #ffae4e;
+  }
+}

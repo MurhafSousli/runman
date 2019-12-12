@@ -1,0 +1,15 @@
+<ng-container *ngIf="game.size | async as size">
+
+  <div *ngIf="game.constants | async as constants"
+       class="viewport"
+       (click)="clicked($event)"
+       [style.width.px]="size?.width"
+       [style.height.px]="size?.height">
+
+    <app-grid [tileSize]="constants.tileSize"></app-grid>
+
+    <app-player *ngFor="let player of game.players | async | keyvalue" [name]="player.key"></app-player>
+
+  </div>
+
+</ng-container>

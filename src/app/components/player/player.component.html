@@ -1,9 +1,0 @@
-<div [class]="type" [ngStyle]="getStyles()">
-  <div class="sprite" [ngClass]="getClasses()" [style.backgroundImage]="'url(' + sprite + ')'"></div>
-  <div class="blood" *ngIf="blood" [style.backgroundImage]="'url(' + bloodSprite + ')'"></div>
-</div>
-
-<point *ngFor="let point of route"
-       [index]="point.index"
-       [color]="action === 'ATTACKING' ? attackColor : color"
-></point>

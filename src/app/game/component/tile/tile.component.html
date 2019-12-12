@@ -1,0 +1,26 @@
+<div [class]="state?.className"
+     [attr.x]="state?.index.x"
+     [attr.y]="state?.index.y"
+     [ngStyle]="styles">
+  <div *ngIf="state?.sprite"
+       class="sprite"
+       [style.backgroundImage]="'url(' + state?.sprite + ')'"></div>
+  <div class="click-effect"></div>
+
+  <ng-container *ngIf="state.walkable">
+    <ng-container *ngIf="debugState$ | async as debugState">
+      <div class="debug">
+        <div class="debug-g">g{{debugState.g}}</div>
+        <div class="debug-h">h{{debugState.h}}</div>
+        <div class="debug-f">f{{debugState.f}}</div>
+      </div>
+
+      <div class="debug-index">{{state.index.x}}{{state.index.y}}</div>
+
+      <div class="debug-effect"
+           [attr.openlist]="debugState.inOpenList"
+           [attr.closedList]="debugState.inClosedList"
+           [attr.pathlist]="debugState.inPathList"></div>
+    </ng-container>
+  </ng-container>
+</div>

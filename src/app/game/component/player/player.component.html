@@ -1,0 +1,11 @@
+<div *ngIf="state$ | async as state" [class]="state?.className" [ngStyle]="state.styles">
+  <div class="sprite"
+       [style.backgroundImage]="'url(' + state?.sprite + ')'"></div>
+  <div class="blood game-blood-effect" *ngIf="state?.blood"></div>
+</div>
+
+<!--<app-point *ngFor="let point of route"-->
+<!--           [index.ts]="point.index.ts"-->
+<!--           [color]="action === 'ATTACKING' ? attackColor : color"-->
+<!--           [size]="size"-->
+<!--&gt;</app-point>-->
